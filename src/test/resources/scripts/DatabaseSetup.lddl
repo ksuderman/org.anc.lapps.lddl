@@ -8,8 +8,11 @@
  *    manager to create all the required tables.
  */
 
-include 'Config.lddl'
-include 'DB.lddl'
+database {
+	url 'jdbc:postgresql://localhost/langrid'
+	username 'langrid'
+	password 'langrid'
+}
 
 // Assumes that the *.sql files are in the same directory as this script.
 execute('create_indices.sql')

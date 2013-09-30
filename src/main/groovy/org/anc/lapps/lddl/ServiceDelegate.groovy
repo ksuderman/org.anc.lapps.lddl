@@ -36,7 +36,10 @@ class ServiceDelegate extends AbstractTableDelegate {
         validateFields()
         println "Fetching WSDL from ${fields.url}"
         String wsdl = new URL("${fields.url}?wsdl").text
-        def allowedUse = fields.allowed
+        def allowedUse = fields.allow
+        if (allowedUse == null) {
+            throw new DelegateException("No values have been provided for the allowed use of the service.")
+        }
         if (allowedUse instanceof String) {
             allowUse(sql, fields.id, allowedUse)
         }
@@ -81,6 +84,7 @@ class ServiceDelegate extends AbstractTableDelegate {
     }
 
     void allowUse(Sql sql, String id, String type) {
+        println "Allowed use for ${id} : ${type}"
         def ucType = type.toUpperCase()
         switch (ucType) {
             case 'COMMERCIAL':  // Fall through all of the allowable values.

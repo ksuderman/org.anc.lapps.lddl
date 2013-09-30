@@ -10,7 +10,7 @@ VERSION=XXXX
 JAR=$HOME/bin/lddl-$VERSION.jar
 
 if [ "$1" = '-version' ] ; then
-    echo "lddl version $VERSION"
+    echo "LDDL version $VERSION"
     echo "Copyright 2013 American National Corpus"
     echo
     exit

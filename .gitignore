@@ -4,10 +4,17 @@
 # Package files #
 *.jar
 *.war
+*.zip 
 
 # Maven #
 target
+VERSION
 
-# Custom
+# Temporary files #
+*~
+dist
+
+# Custom #
 Makefile
 install.sh
+data.groovy
