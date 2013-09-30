@@ -1,0 +1,13 @@
+*.class
+*.log
+
+# Package files #
+*.jar
+*.war
+
+# Maven #
+target
+
+# Custom
+Makefile
+install.sh
