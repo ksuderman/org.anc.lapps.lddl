@@ -1,0 +1,290 @@
+/*
+ * An all-in-one uber-script that performs all initialization in
+ * one script.
+ */
+
+/*
+ * Global variables.
+ */
+DOMAIN = 'lapps.nlp'
+
+// Each institution should define their own copyright notice.
+COPYRIGHT = 'Copyright 2013 American National Corpus'
+
+// Service types.
+SERVICE = 'lapps.service.service'
+DATASOURCE = 'lapps.service.datasource'
+
+// Resource types
+CORPUS = 'lapps.resource.corpus'
+NONE = 'lapps.resource.none'
+
+// License types. This list is by no means exhaustive.
+APACHE = 'Apache 2.0'
+GPL = 'GPL'
+
+// Server URLs
+Servers = [:]
+Servers.LOCALHOST = 'http://localhost:8080'
+Servers.GRID = 'http://grid.anc.org:8080'
+Servers.LDC = '...'
+Servers.CMU = '...'
+
+/*
+ * Database connection information.
+ */
+database {
+    url 'jdbc:postgresql://localhost/langrid'
+    username 'langrid'
+    password 'langrid'
+}
+
+/*
+ * Database cleanup. Remove data from any previous runs.
+ */
+data = [
+    [table:'serviceendpoint', column:'gridid', value:GRID_ID],
+    [table:'service_alloweduse', column:'service_gridid', value:GRID_ID],
+    [table:'service_allowedappprovision', column:'service_gridid', value:GRID_ID],
+    [table:'serviceattribute', column:'gridid', value:GRID_ID],
+    [table:'serviceinterfacedefinition', column:'servicetype_domainid', value:DOMAIN],
+    [table:'servicetype_servicemetaattribute', column:'servicetype_domainid', value:DOMAIN],
+    [table:'servicemetaattribute', column:'domainid', value:DOMAIN],
+    [table:'servicetype', column:'domainid', value:DOMAIN],
+    [table:'resourcetype_resourcemetaattribute', column:'resourcetype_domainid', value:DOMAIN],
+    [table:'resourcemetaattribute', column:'domainid', value:DOMAIN],
+    [table:'resourcetype', column:'domainid', value:DOMAIN],
+    [table:'protocol', column:'ownerusergridid', value:GRID_ID],
+    [table:'resource', column:'gridid', value:GRID_ID],
+    [table:'service', column:'gridid', value:GRID_ID],
+    [table:'domain', column:'domainid', value:DOMAIN]
+]
+
+data.each { row ->
+    sql "delete from ${row.table} where ${row.column} = '${row.value}'".toString()
+}
+
+// Deleting from the news table is a special case since we need to
+// match on two columns.  This prevents the News page from being cluttered
+// with entries from each run.
+sql "delete from news where gridid = '${GRID_ID}' and nodeid = '${NODE_ID}'"
+
+news 'The database was cleared of all LAPPS related data.'
+
+/*
+ * Define the LAPPS domain.
+ */
+domain {
+	id DOMAIN
+	name 'Natural Language Processing'
+	description 'NLP tasks related to LAPPS.'
+}
+news "Domain added: ${DOMAIN}"
+
+/*
+ * Protocols
+ *
+protocol {
+	id 'SOAP_RPC_ENCODED'
+	name 'SOAP RPC Encoded'
+	description 'RPC Encoded SOAP messages.'
+}
+
+protocol {
+    id 'REST'
+    name 'REST'
+    description 'RESTful web services.'
+}
+
+/*
+ * Resource metadata, types, and instances.
+ */
+resourceMetaAttribute {
+	id 'resource.meta.lang'
+	name 'Language'
+	domain DOMAIN
+	description 'The language of the resource.'
+}
+
+resourceMetaAttribute {
+	id 'resource.meta.size'
+	name 'Size'
+	domain DOMAIN
+	description 'The size of the resource'
+}
+
+resourceMetaAttribute {
+	id 'resource.meta.unit'
+	name 'Unit'
+	domain DOMAIN
+	description 'The unit of the Size attribute (KB, words, etc.)'
+}
+
+resourceType {
+	id CORPUS
+	name 'Corpus'
+	domain DOMAIN
+	description 'A resource that contains a single corpus.'
+}
+
+resourceType {
+	id 'lapps.resource.corpora'
+	name 'Corpora'
+	domain DOMAIN
+	description 'A resource that contains multiple corpora.'
+}
+
+resourceType {
+    id 'lapps.resource.dictionary'
+    name 'Dictionary'
+    domain DOMAIN
+    description 'Dictionary'
+}
+
+resourceType {
+    id NONE
+    name 'The NULL resource type'
+    domain DOMAIN
+    description "A type for resources that do not take a type."
+}
+
+resource {
+    id 'MASC-3.0.0'
+    copyright COPYRIGHT
+    license APACHE
+    description 'MASC 3.0.0'
+    name 'MASC 3.0.0'
+    domain DOMAIN
+    type CORPUS
+}
+
+resource {
+    id NONE
+    copyright COPYRIGHT
+    license APACHE
+    description 'A resource for services that do not require a resource.'
+    name 'None'
+    domain DOMAIN
+    type NONE
+}
+news 'LAPPS resources have been registered.'
+
+/*
+ * Service metadata and types.
+ */
+serviceMetaAttribute {
+	id 'service.meta.lang'
+	name 'Service language'
+	domain DOMAIN
+	description 'The language(s) the service is able to process.'
+}
+
+serviceMetaAttribute {
+	id 'service.meta.type'
+	name 'Service type'
+	domain DOMAIN
+	description 'The type of service (POS tagger, sentence splitter, etc.)'
+}
+
+serviceType {
+	id DATASOURCE
+	name 'LAPPS Datasource'
+	domain DOMAIN
+	description 'Services that provide data to other services.'
+}
+
+serviceType {
+	id SERVICE
+	name 'LAPPS Web Service'
+	domain DOMAIN
+	description 'LAPPS web services.'
+}
+news 'LAPPS service types and attributes have been registered.'
+
+/*
+ * Service interface definitions.
+ */
+serviceInterfaceDefinition {
+    name 'LAPPS DataSource'
+	domain DOMAIN
+	type DATASOURCE
+	protocol 'SOAP_RPC_ENCODED'
+	//url "${Servers.GRID}/service_manager/wsdl/anc:MASC_DATA"
+	url 'file:Datasource.wsdl'
+}
+
+serviceInterfaceDefinition {
+    name 'LAPPS Web Service'
+	domain DOMAIN
+	type SERVICE
+	protocol 'SOAP_RPC_ENCODED'
+	//url "${Servers.GRID}/service_manager/wsdl/anc:STANFORD_SPLITTER"
+	url 'file:WebService.wsdl'
+}
+news 'Added interface definitions for LAPPS web services and data sources.'
+
+/*
+ * Instances of datasources and web services available on the ANC node.
+ */
+// Resource used by the data sources.
+MASC = 'MASC-3.0.0'
+
+// Base URL for data source services.
+DS_BASE_URL= "${Servers.LOCALHOST}/MascDataSource/services"
+
+datasources = [
+    [id:'masc.text', name:'MascTextSource', desc:'Datasource for MASC text files.'],
+    [id:'masc.data', name:'MascDataSource', desc:'Datasource for MASC files.'],
+    [id:'masc.headers', name:'MascHeaderSource', desc:'Datasource for MASC header files.']
+]
+
+services = [
+    [id:'gate.splitter', name:'SentenceSplitter', desc:'GATE SentenceSplitter', type:'Gate', license:'GPL'],
+    [id:'gate.tokenizer', name:'Tokenizer', desc:'GATE Tokenizer', type:'Gate', license:'GPL'],
+    [id:'gate.tagger', name:'POSTagger', desc:'GATE POS Tagger', type:'Gate', license:'GPL'],
+    [id:'opennlp.splitter', name:'SentenceSplitter', desc:'OpenNLP SentenceSplitter', type:'OpenNLP', license:'APACHE'],
+    [id:'opennlp.tokenizer', name:'Tokenizer', desc:'OpenNLP Tokenizer', type:'OpenNLP', license:'APACHE'],
+    [id:'opennlp.tagger', name:'Tagger', desc:'OpenNLP POS Tagger', type:'OpenNLP', license:'APACHE'],
+    [id:'stanford.splitter', name:'SentenceSplitter', desc:'Stanford SentenceSplitter', type:'Stanford', license:'GPL'],
+    [id:'stanford.tokenizer', name:'Tokenizer', desc:'Stanford Tokenizer', type:'Stanford', license:'GPL'],
+    [id:'stanford.tagger', name:'Tagger', desc:'Stanford POS Tagger', type:'Stanford', license:'GPL'],
+]
+
+services.each { s ->
+    service {
+        id s.id
+        name s.name
+        url "${Servers.LOCALHOST}/${s.type}Services/services/${s.name}"
+        protocol 'SOAP_RPC_ENCODED'
+        domain DOMAIN
+        type SERVICE
+        copyright COPYRIGHT
+        resource NONE
+        license "${s.license}"
+        description s.desc
+        allow 'commercial','nonprofit','research'
+        control 'client','server'
+        federate true
+    }
+    news "Configured service ${s.type} ${s.name}"
+}
+
+datasources.each { ds ->
+    service {
+        id ds.id
+        name ds.name
+        url "${DS_BASE_URL}/${ds.name}"
+        description ds.desc
+        protocol 'SOAP_RPC_ENCODED'
+        domain DOMAIN
+        type DATASOURCE
+        copyright COPYRIGHT
+        resource MASC
+        license APACHE
+        allow 'commercial','nonprofit','research'
+        control 'client','server'
+        federate true
+    }
+    news "Configured datasource ${ds.name}"
+}
+

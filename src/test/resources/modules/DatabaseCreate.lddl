@@ -1,0 +1,30 @@
+/*
+ * This script can be used to create the LAPPS database in PostgreSQL. Any
+ * existing database is dropped before it is recreated.
+ *
+ * The indices and stored procedure can not be added at this time as the
+ * service manager needs to be run to create all the required tables.
+
+ */
+
+// Connect as the superuser.
+postgres {
+    url 'jdbc:postgresql://localhost'
+    username 'postgres'
+    password 'postgres'
+}
+
+def create_stmt = """
+CREATE DATABASE langrid
+  WITH OWNER = langrid
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'C'
+       LC_CTYPE = 'C'
+       CONNECTION LIMIT = -1;
+"""
+
+sql 'drop database if exists langrid'
+sql create_stmt
+
+

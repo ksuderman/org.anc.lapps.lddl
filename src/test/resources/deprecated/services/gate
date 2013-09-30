@@ -1,0 +1,28 @@
+
+gate_services = [
+    /* Columns are id, service name (as used in the URL), service description */
+    ['gate.splitter', 'SentenceSplitter', 'GATE SentenceSplitter'],
+    ['gate.tokenizer', 'Tokenizer', 'GATE Tokenizer'],
+    ['gate.tagger', 'POSTagger', 'GATE POS Tagger']
+]
+
+gate_services.each { settings ->
+    service {
+        id settings[0]
+        name settings[2]
+        url "${Servers.LOCALHOST}/GateServices/services/${settings[1]}"
+        protocol 'SOAP_RPC_ENCODED'
+        domain DOMAIN
+        type SERVICE
+        copyright COPYRIGHT
+        resource NONE
+        license 'GPL'
+        description settings[2]
+        allow 'commercial','nonprofit','research'
+        control 'client','server'
+        federate true
+    }
+}
+
+news 'GATE services have been registered.'
+

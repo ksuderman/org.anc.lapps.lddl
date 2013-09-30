@@ -1,0 +1,79 @@
+
+ROOT_URL = "${Servers.LOCALHOST}/MascDataSource/services"
+MASC = 'MASC-3.0.0'
+
+services = [
+    ['masc.text', 'MascTextSource', 'Datasource for MASC text files.'],
+    ['masc.data', 'MascDataSource', 'Datasource for MASC files.'],
+    ['masc.headers', 'MascHeaderSource', 'Datasource for MASC header files.']
+]
+
+services.each { settings ->
+    service {
+        id settings[0]
+        name settings[1]
+        url "${ROOT_URL}/${settings[1]}"
+        description settings[2]
+        protocol 'SOAP_RPC_ENCODED'
+        domain DOMAIN
+        type DATASOURCE
+        copyright COPYRIGHT
+        resource MASC
+        license 'Apache 2.0'
+        allow 'commercial','nonprofit','research'
+        control 'client','server'
+        federate true
+    }
+}
+
+news 'MASC Datasources have been configured.'
+
+/*
+service {
+    id 'masc.text'
+    name 'MASC Text'
+    url "${ROOT_URL}/MascTextSource"
+    protocol 'SOAP_RPC_ENCODED'
+    domain DOMAIN
+    type DATASOURCE
+    copyright COPYRIGHT
+    resource MASC
+    license 'Apache 2.0'
+    description 'Datasource for MASC text files.'
+    allow 'commercial','nonprofit','research'
+    control 'client','server'
+    federate true
+}
+
+service {
+    id 'masc.data'
+    name 'MASC Data'
+    url "${ROOT_URL}/MascDataSource"
+    protocol 'SOAP_RPC_ENCODED'
+    domain DOMAIN
+    type DATASOURCE
+    copyright COPYRIGHT
+    resource MASC
+    license 'Apache 2.0'
+    description 'Datasource for MASC files.'
+    allow 'commercial','nonprofit','research'
+    control 'client','server'
+    federate true
+}
+
+service {
+    id 'masc.headers'
+    name 'MASC Headers'
+    url "${ROOT_URL}/MascHeaderSource"
+    protocol 'SOAP_RPC_ENCODED'
+    domain DOMAIN
+    type DATASOURCE
+    copyright COPYRIGHT
+    resource MASC
+    license 'Apache 2.0'
+    description 'Datasource for MASC files.'
+    allow 'commercial','nonprofit','research'
+    control 'client','server'
+    federate true
+}
+*/

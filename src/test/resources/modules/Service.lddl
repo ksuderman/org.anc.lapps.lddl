@@ -1,0 +1,33 @@
+include 'Config.lddl'
+include 'DB.lddl'
+
+serviceMetaAttribute {
+	id 'service.meta.lang'
+	name 'Service language'
+	domain DOMAIN
+	description 'The language(s) the service is able to process.'
+}
+
+serviceMetaAttribute {
+	id 'service.meta.type'
+	name 'Service type'
+	domain DOMAIN
+	description 'The type of service (POS tagger, sentence splitter, etc.)'
+}
+
+serviceType {
+	id DATASOURCE
+	name 'LAPPS Datasource'
+	domain DOMAIN
+	description 'Services that provide data to other services.'
+}
+
+serviceType {
+	id SERVICE
+	name 'LAPPS Web Service'
+	domain DOMAIN
+	description 'LAPPS web services.'
+}
+
+news 'LAPPS service types and attributes have been registered.'
+

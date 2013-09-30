@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -e
+
+# Startup script for LDDL. Change the LDDL installation directory
+# below if needed.
+#
+MEMSIZE=4G
+VERSION=XXXX
+JAR=$HOME/bin/lddl-$VERSION.jar
+
+if [ "$1" = '-version' ] ; then
+    echo "lddl version $VERSION"
+    echo "Copyright 2013 American National Corpus"
+    echo
+    exit
+fi
+
+java -jar $JAR $@

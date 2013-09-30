@@ -1,0 +1,76 @@
+/*
+ * Deletes all rows inserted for LAPPS from the specified tables.
+ *
+ * NOTE: The order the deletes is done is important to prevent FK
+ * violations.
+ */
+
+include 'Config.lddl'
+include 'DB.lddl'
+
+data = [
+    [table:'serviceendpoint', column:'gridid', value:GRID_ID],
+    [table:'service_alloweduse', column:'service_gridid', value:GRID_ID],
+    [table:'service_allowedappprovision', column:'service_gridid', value:GRID_ID],
+    [table:'serviceattribute', column:'gridid', value:GRID_ID],
+    [table:'serviceinterfacedefinition', column:'servicetype_domainid', value:DOMAIN],
+    [table:'servicetype_servicemetaattribute', column:'servicetype_domainid', value:DOMAIN],
+    [table:'servicemetaattribute', column:'domainid', value:DOMAIN],
+    [table:'servicetype', column:'domainid', value:DOMAIN],
+    [table:'resourcetype_resourcemetaattribute', column:'resourcetype_domainid', value:DOMAIN],
+    [table:'resourcemetaattribute', column:'domainid', value:DOMAIN],
+    [table:'resourcetype', column:'domainid', value:DOMAIN],
+    [table:'protocol', column:'ownerusergridid', value:GRID_ID],
+    [table:'resource', column:'gridid', value:GRID_ID],
+    [table:'service', column:'gridid', value:GRID_ID],
+    [table:'domain', column:'domainid', value:DOMAIN]
+]
+
+data.each { row ->
+    sql "delete from ${row.table} where ${row.column} = '${row.value}'".toString()
+}
+
+// Deleting from the news table is a special case since we need to
+// match on two columns
+sql "delete from news where gridid = '${GRID_ID}' and nodeid = '${NODE_ID}'"
+
+news 'The database was cleared of all LAPPS related data.'
+
+/*
+sql("delete from serviceendpoint where gridid = '${GRID_ID}'")
+sql("delete from service_alloweduse where service_gridid = '${GRID_ID}'")
+sql("delete from service_allowedappprovision where service_gridid = '${GRID_ID}'")
+sql("delete from serviceattribute where gridid = '${GRID_ID}'")
+sql("delete from serviceinterfacedefinition where servicetype_domainid = '${DOMAIN}'")
+sql("delete from servicetype_servicemetaattribute where servicetype_domainid = '${DOMAIN}'")
+sql("delete from servicemetaattribute where domainid = '${DOMAIN}'")
+sql("delete from servicetype where domainid = '${DOMAIN}'")
+sql("delete from resourcetype_resourcemetaattribute where resourcetype_domainid = '${DOMAIN}'")
+sql("delete from resourcemetaattribute where domainid = '${DOMAIN}'")
+sql("delete from resourcetype where domainid = '${DOMAIN}'")
+sql("delete from protocol where ownerusergridid = '${GRID_ID}'")
+sql("delete from resource where gridid = '${GRID_ID}'")
+sql("delete from service where gridid = '${GRID_ID}'")
+sql("delete from domain where domainid = '${DOMAIN}'")
+*/
+
+/*
+data = [
+    // Columns are table name, column, value
+    ['serviceendpoint', 'gridid', GRID_ID],
+    ['service_alloweduse', 'service_gridid', GRID_ID],
+    ['service_allowedappprovision', 'service_gridid', GRID_ID],
+    ['serviceattribute', 'gridid', GRID_ID],
+    ['serviceinterfacedefinition', 'servicetype_domainid', DOMAIN],
+    ['servicetype_servicemetaattribute', 'servicetype_domainid', DOMAIN],
+    ['servicemetaattribute', 'domainid', DOMAIN],
+    ['servicetype', 'domainid', DOMAIN],
+    ['resourcetype_resourcemetaattribute', 'resourcetype_domainid', DOMAIN],
+    ['resourcemetaattribute', 'domainid', DOMAIN],
+    ['resourcetype', 'domainid', DOMAIN],
+    ['protocol', 'ownerusergridid', GRID_ID],
+    ['resource', 'gridid', GRID_ID],
+    ['service', 'gridid', GRID_ID],
+    ['domain', 'domainid', DOMAIN]
+]
+*/

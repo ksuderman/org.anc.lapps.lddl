@@ -1,0 +1,27 @@
+//include 'Config.db'
+
+services = [
+    /* Columns are id, service name (as used in the URL), service description */
+    ['opennlp.splitter', 'SentenceSplitter', 'OpenNLP SentenceSplitter'],
+    ['opennlp.tokenizer', 'Tokenizer', 'OpenNLP Tokenizer'],
+    ['opennlp.tagger', 'Tagger', 'OpenNLP POS Tagger']
+]
+
+services.each { settings ->
+    service {
+        id settings[0]
+        name settings[2]
+        url "${Servers.LOCALHOST}/OpenNLPServices/services/${settings[1]}"
+        protocol 'SOAP_RPC_ENCODED'
+        domain DOMAIN
+        type SERVICE
+        copyright COPYRIGHT
+        resource NONE
+        license 'Apache 2.0'
+        description settings[2]
+        allow 'commercial','nonprofit','research'
+        control 'client','server'
+        federate true
+    }
+}
+news 'OpenNLP services have been registered.'

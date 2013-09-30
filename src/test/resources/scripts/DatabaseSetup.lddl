@@ -1,0 +1,22 @@
+/*
+ * Use this script to create the index and stored procedure. Before using this
+ * script you must:
+ *
+ * 1. Create a database named 'langrid' and set the owner to 'langrid'.
+ *    The CreateDB.lddl script can be used for this.
+ * 2. Start and stop the service manager.  This will cause the service
+ *    manager to create all the required tables.
+ */
+
+include 'Config.lddl'
+include 'DB.lddl'
+
+// Assumes that the *.sql files are in the same directory as this script.
+execute('create_indices.sql')
+execute('create_storedproc.sql')
+println "Index and stored procedure have been created."
+
+void execute(String filename) {
+    def statement = new File(filename).text
+    sql statement
+}

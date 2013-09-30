@@ -1,0 +1,27 @@
+
+services = [
+    /* Columns are id, service name (as used in the URL), service description */
+    ['stanford.splitter', 'SentenceSplitter', 'Stanford SentenceSplitter'],
+    ['stanford.tokenizer', 'Tokenizer', 'Stanford Tokenizer'],
+    ['stanford.tagger', 'Tagger', 'Stanford POS Tagger']
+]
+
+services.each { settings ->
+    service {
+        id settings[0]
+        name settings[2]
+        url "${Servers.LOCALHOST}/StanfordServices/services/${settings[1]}"
+        protocol 'SOAP_RPC_ENCODED'
+        domain DOMAIN
+        type SERVICE
+        copyright COPYRIGHT
+        resource NONE
+        license 'GPL'
+        description settings[2]
+        allow 'commercial','nonprofit','research'
+        control 'client','server'
+        federate true
+    }
+}
+
+news 'Stanford services have been registered'

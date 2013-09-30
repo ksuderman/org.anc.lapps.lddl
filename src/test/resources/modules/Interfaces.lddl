@@ -1,0 +1,28 @@
+/*
+ * LAPPS only uses two interface definitions; one interface for data sources
+ * and another for web services.
+ */
+
+include 'Config.lddl'
+include 'DB.lddl'
+
+serviceInterfaceDefinition {
+    name 'LAPPS DataSource'
+	domain DOMAIN
+	type DATASOURCE
+	protocol 'SOAP_RPC_ENCODED'
+	//url "${Servers.GRID}/service_manager/wsdl/anc:MASC_DATA"
+	url 'file:Datasource.wsdl'
+}
+
+serviceInterfaceDefinition {
+    name 'LAPPS Web Service'
+	domain DOMAIN
+	type SERVICE
+	protocol 'SOAP_RPC_ENCODED'
+	//url "${Servers.GRID}/service_manager/wsdl/anc:STANFORD_SPLITTER"
+	url 'file:WebService.wsdl'
+}
+
+news 'Added interface definitions for LAPPS web services and data sources.'
+
