@@ -34,8 +34,34 @@ class ServiceDelegate extends AbstractTableDelegate {
     @Override
     void execute(Sql sql) {
         validateFields()
-        println "Fetching WSDL from ${fields.url}"
+        //println "Fetching WSDL from ${fields.url}"
         String wsdl = new URL("${fields.url}?wsdl").text
+        // Save the wsdl as a LargeObject in the database.
+        long zipId = writeZipObject(sql, fields.name, wsdl)
+        int size = wsdl.bytes.size()
+        long oid = writeLargeObject(sql, wsdl)
+        def now = timestamp()
+        StringBuilder buffer = new StringBuilder()
+        buffer << "'ExternalService'"
+        [GRID_ID, fields.id,now,now,true,true,'ATOMIC',fields.copyright,fields.federate,zipId,size,0,fields.license,false,GRID_USER_ID,fields.resource,fields.description,fields.name,fields.domain,fields.type,false,0,false,true,oid].each {
+            buffer << ",'${it}'"
+        }
+        String stmt = "insert into service (${SERVICE_COLUMNS}) values (${buffer.toString()})".toString()
+        sql.execute(stmt)
+
+        def allowedControl = fields.control
+        if (allowedControl == null) {
+            throw new DelegateException("No values have been provided for the control of the service.")
+        }
+        if (allowedControl instanceof String) {
+            provision(sql, fields.id, allowedControl)
+        }
+        else {
+            allowedControl.each { allowed ->
+                provision(sql, fields.id, allowed)
+            }
+        }
+
         def allowedUse = fields.allow
         if (allowedUse == null) {
             throw new DelegateException("No values have been provided for the allowed use of the service.")
@@ -49,31 +75,6 @@ class ServiceDelegate extends AbstractTableDelegate {
             }
         }
 
-        // Save the wsdl as a LargeObject in the database.
-//        sql.connection.autoCommit = false
-        long zipId = writeZipObject(sql, fields.name, wsdl)
-        int size = wsdl.bytes.size()
-        long oid = writeLargeObject(sql, wsdl)
-//        sql.connection.autoCommit = true
-        def now = timestamp()
-        StringBuilder buffer = new StringBuilder()
-        buffer << "'ExternalService'"
-        [GRID_ID, fields.id,now,now,true,true,'ATOMIC',fields.copyright,fields.federate,zipId,size,0,fields.license,false,GRID_USER_ID,fields.resource,fields.description,fields.name,fields.domain,fields.type,false,0,false,true,oid].each {
-            buffer << ",'${it}'"
-        }
-        String stmt = "insert into service (${SERVICE_COLUMNS}) values (${buffer.toString()})".toString()
-        sql.execute(stmt)
-
-        def allowedControl = fields.control
-        if (allowedControl instanceof String) {
-            provision(sql, fields.id, allowedControl)
-        }
-        else {
-            allowedControl.each { allowed ->
-                provision(sql, fields.id, allowed)
-            }
-        }
-
         buffer = new StringBuilder()
         buffer << "'${GRID_ID}'"
         [fields.protocol,fields.id,fields.url,now,now,0,true,0].each {
@@ -84,7 +85,7 @@ class ServiceDelegate extends AbstractTableDelegate {
     }
 
     void allowUse(Sql sql, String id, String type) {
-        println "Allowed use for ${id} : ${type}"
+        //println "Allowed use for ${id} : ${type}"
         def ucType = type.toUpperCase()
         switch (ucType) {
             case 'COMMERCIAL':  // Fall through all of the allowable values.

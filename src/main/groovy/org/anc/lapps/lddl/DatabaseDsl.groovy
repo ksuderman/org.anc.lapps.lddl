@@ -187,6 +187,10 @@ class DatabaseDsl {
             statements << new NewsDelegate(content)
         }
 
+        meta.comment = { String comment
+            statements << new CommentDelegate(comment)
+        }
+        
         meta.include = { String filename ->
             // Don't include the same file multiple times.
             if (included.contains(filename)) {

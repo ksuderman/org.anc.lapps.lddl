@@ -17,6 +17,25 @@ datasources = [
     [id:'masc.headers', name:'MascHeaderSource', desc:'Datasource for MASC header files.']
 ]
 
+datasources.each { source ->
+    service {
+        id source.id
+        name source.name
+        url "${DS_BASE_URL}/${source.name}"
+        description source.desc
+        protocol 'SOAP_RPC_ENCODED'
+        domain DOMAIN
+        type DATASOURCE
+        copyright COPYRIGHT
+        resource MASC
+        license APACHE
+        allow 'commercial','nonprofit','research'
+        control 'client','server'
+        federate true
+    }
+    news "Configured ${source.name}"
+}
+
 services = [
     [id:'gate.splitter', name:'SentenceSplitter', desc:'GATE SentenceSplitter', type:'Gate', license:'GPL'],
     [id:'gate.tokenizer', name:'Tokenizer', desc:'GATE Tokenizer', type:'Gate', license:'GPL'],
@@ -32,7 +51,7 @@ services = [
 services.each { s ->
     service {
         id s.id
-        name s.name
+        name "${s.type} ${s.name}"
         url "${Servers.LOCALHOST}/${s.type}Services/services/${s.name}"
         protocol 'SOAP_RPC_ENCODED'
         domain DOMAIN
@@ -46,24 +65,5 @@ services.each { s ->
         federate true
     }
     news "Configured ${s.type} ${s.name}"
-}
-
-datasources.each { ds ->
-    service {
-        id ds.id
-        name ds.name
-        url "${DS_BASE_URL}/${ds.name}"
-        description ds.desc
-        protocol 'SOAP_RPC_ENCODED'
-        domain DOMAIN
-        type DATASOURCE
-        copyright COPYRIGHT
-        resource MASC
-        license APACHE
-        allow 'commercial','nonprofit','research'
-        control 'client','server'
-        federate true
-    }
-    news "Configured ${ds.name}"
 }
 
