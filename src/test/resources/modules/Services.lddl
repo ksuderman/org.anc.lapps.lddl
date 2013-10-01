@@ -2,8 +2,8 @@
  * Registers the services available on the ANC's LAPPS node.
  */
 
-include 'Config.lddl'
-include 'DB.lddl'
+include 'Config'
+include 'DB'
 
 // Resource used by the data sources.
 MASC = 'MASC-3.0.0'

@@ -3,8 +3,8 @@
  * and another for web services.
  */
 
-include 'Config.lddl'
-include 'DB.lddl'
+include 'Config'
+include 'DB'
 
 serviceInterfaceDefinition {
     name 'LAPPS DataSource'

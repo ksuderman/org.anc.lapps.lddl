@@ -2,8 +2,8 @@
  * The domain for LAPPS NLP applications.
  */
 
-include 'Config.lddl'
-include 'DB.lddl'
+include 'Config'
+include 'DB'
 
 domain {
 	id DOMAIN

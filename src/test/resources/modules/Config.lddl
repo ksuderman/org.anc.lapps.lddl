@@ -1,16 +1,23 @@
 /*
- * The Config.db script is intended to hold global settings that can be
+ * The Config script is intended to hold global settings that can be
  * included into other scripts.
  */
 
 DOMAIN = 'lapps.nlp'
 COPYRIGHT = 'Copyright 2013 American National Corpus'
 
-/* Service types. */
+/* Service types.
+ *
+ * Currently LAPPS has two service types (as far as the service
+ * manager is concerned): data sources and processing services.
+ */
 SERVICE = 'lapps.service.service'
 DATASOURCE = 'lapps.service.datasource'
 
-/* Resource types */
+/* Resource types
+ *
+ * The service manager requires a "resource" for every service
+ */
 CORPUS = 'lapps.resource.corpus'
 NONE = 'lapps.resource.none'
 
@@ -21,7 +28,7 @@ GPL = 'GPL'
 /* Server URLs */
 Servers = [:]
 Servers.LOCALHOST = 'http://localhost:8080'
-Servers.GRID = 'http://grid.anc.org:8080'
+Servers.ANC = 'http://grid.anc.org:8080'
 Servers.LDC = '...'
 Servers.CMU = '...'
 

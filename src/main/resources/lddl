@@ -6,7 +6,7 @@ set -e
 # below if needed.
 #
 MEMSIZE=4G
-VERSION=XXXX
+VERSION=__VERSION__
 JAR=$HOME/bin/lddl-$VERSION.jar
 
 if [ "$1" = '-version' ] ; then

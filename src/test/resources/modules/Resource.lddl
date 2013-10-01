@@ -1,5 +1,5 @@
-include 'Config.lddl'
-include 'DB.lddl'
+include 'Config'
+include 'DB'
 
 resourceMetaAttribute {
 	id 'resource.meta.lang'

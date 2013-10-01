@@ -17,6 +17,7 @@ class DatabaseDsl {
 
     void run(File file, args) {
         parentDir = file.parentFile
+        included << file.name
         run(file.text, args)
     }
 
@@ -25,28 +26,19 @@ class DatabaseDsl {
         if (loader == null) {
             loader = this.class.classLoader
         }
+
+        // Add some default imports for the user.
         ImportCustomizer customizer = new ImportCustomizer()
         def packages = [
-//                'org.lappsgrid.api',
-//                'org.lappsgrid.core',
-//                'org.lappsgrid.discriminator',
-//                'org.anc.grid.masc.data.client',
-//                'org.anc.lapps.client',
-//                'org.anc.lapps.pipeline',
                 'groovy.sql',
-                'org.postgresql',
-                'org.anc.io',
-                'org.anc.util',
-                'org.anc.xml'
+                'org.postgresql'
         ]
         packages.each {
             customizer.addStarImports(it)
         }
-//        DatabaseDelegate databaseInfo = new DatabaseDelegate()
 
         CompilerConfiguration configuration = new CompilerConfiguration()
         configuration.addCompilationCustomizers(customizer)
-//        Binding bindings = new Binding()
         GroovyShell shell = new GroovyShell(loader, bindings, configuration)
 
         Script script = shell.parse(scriptString)
@@ -54,12 +46,13 @@ class DatabaseDsl {
             script.binding.setVariable("args", args)
         }
 
-        // Running the script will generate the SQL statments (AbstractTableDelegate)
-        // objects we need to initialize the database.
-        println "Running main."
+        // Running the script will generate a list of SQL statements
+        // needed to initialize the database.
         script.metaClass = getMetaClass(script.class,shell)
         script.run()
 
+        // Make sure the DB is configured. If we don't have a database
+        // connection there is no use running SQL statements.
         try {
             databaseInfo.validateFields()
         }
@@ -68,13 +61,14 @@ class DatabaseDsl {
             return
         }
 
+        // Now execute the SQL statements.
         statements.each {
             it.execute(sql)
         }
     }
 
     /** Since multiple scripts may be 'included' we need to be able to generate
-     *  multiple metaclasses; one per script.
+     *  a new MetaClass for each.
      *
      * @param theClass
      * @param shell
@@ -187,30 +181,41 @@ class DatabaseDsl {
             statements << new NewsDelegate(content)
         }
 
-        meta.comment = { String comment
+        meta.comment = { String comment ->
+//            println("Comment: ${comment}")
             statements << new CommentDelegate(comment)
         }
-        
+
         meta.include = { String filename ->
+            // Make sure we can find the file. The default behaviour is to
+            // look in the same directory as the source script.
+            // TODO Allow an absolute path to be specified.
+
+            def filemaker
+            if (parentDir != null) {
+                filemaker = { String name ->
+                    return new File(parentDir, name)
+                }
+            }
+            else {
+                filemaker = { String name ->
+                    new File(name)
+                }
+            }
+
+            File file = filemaker(filename)
+            if (!file.exists()) {
+                file = filemaker(filename + ".lddl")
+                if (!file.exists()) {
+                    throw new FileNotFoundException(filename)
+                }
+            }
             // Don't include the same file multiple times.
             if (included.contains(filename)) {
                 return
             }
             included.add(filename)
 
-            // Make sure we can find the file. The default behaviour is to
-            // look in the same directory as the source script.
-            // TODO Allow an absolute path to be specified.
-            File file
-            if (parentDir != null) {
-                file = new File(parentDir, filename)
-            }
-            else {
-                file = new File(filename)
-            }
-            if (!file.exists()) {
-                throw new FileNotFoundException(filename)
-            }
 
             // Parse and run the script.
             Script included = shell.parse(file)

@@ -4,8 +4,8 @@
  * is included for the sake of completeness.
  */
 
-include 'Config.lddl'
-include 'DB.lddl'
+include 'Config'
+include 'DB'
 
 protocol {
 	id 'SOAP_RPC_ENCODED'

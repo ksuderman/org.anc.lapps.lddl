@@ -17,21 +17,6 @@ class CommentDelegate extends AbstractDelegate {
         return null
     }
 
-//    @Override
-//    String table() {
-//        return null
-//    }
-//
-//    @Override
-//    String columns() {
-//        return null
-//    }
-//
-//    @Override
-//    String values() {
-//        return null
-//    }
-
     void execute(Sql sql) {
         println comment
     }
