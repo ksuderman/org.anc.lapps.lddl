@@ -37,7 +37,7 @@ class NewsDelegate extends AbstractTableDelegate {
     @Override
     void execute(Sql sql) {
         def now = timestamp()
-        def id = getNext(sql, 'news', 'id')
+        def id = getNextId(sql)
         StringBuilder buffer = new StringBuilder()
         buffer << "'${id}'"
         [now,now,content,GRID_ID,NODE_ID,id].each {

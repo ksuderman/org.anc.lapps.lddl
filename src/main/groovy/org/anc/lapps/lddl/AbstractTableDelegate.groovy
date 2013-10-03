@@ -43,6 +43,10 @@ abstract class AbstractTableDelegate extends AbstractDelegate {
         return 1
     }
 
+    int getNextId(Sql sql) {
+        return sql.firstRow("select nextval('hibernate_sequence')").values()[0]
+    }
+
     long writeLargeObject(Sql sql, String value) {
         sql.connection.autoCommit = false
         long id = -1

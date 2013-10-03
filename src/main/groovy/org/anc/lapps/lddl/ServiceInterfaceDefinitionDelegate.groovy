@@ -53,7 +53,7 @@ class ServiceInterfaceDefinitionDelegate extends AbstractTableDelegate {
         String wsdl = new URL(fields.url).text
 
         // Get the next available servicetypeid
-        int nextId = getNext(sql, table(), "id")
+        int nextId = getNextId(sql);
 
 //        sql.connection.autoCommit = false
         long loid = writeZipObject(sql, fields.name, wsdl)

@@ -224,6 +224,12 @@ serviceInterfaceDefinition {
 news 'Added interface definitions for LAPPS web services and data sources.'
 
 /*
+ * Allow commercial use.
+ */
+sql "update grid set commercialuseallowed=TRUE where gridid='$GRID_ID'"
+news 'Commercial use is now allowed.'
+
+/*
  * Instances of datasources and web services available on the ANC node.
  */
 // Resource used by the data sources.
@@ -257,35 +263,60 @@ datasources.each { ds ->
     news "Configured datasource ${ds.name}"
 }
 
-services = [
+services = [:]
+services.gate = [
     [id:'gate.splitter', name:'SentenceSplitter', desc:'GATE SentenceSplitter', type:'Gate', license:'GPL'],
     [id:'gate.tokenizer', name:'Tokenizer', desc:'GATE Tokenizer', type:'Gate', license:'GPL'],
-    [id:'gate.tagger', name:'POSTagger', desc:'GATE POS Tagger', type:'Gate', license:'GPL'],
-    [id:'opennlp.splitter', name:'SentenceSplitter', desc:'OpenNLP SentenceSplitter', type:'OpenNLP', license:'APACHE'],
-    [id:'opennlp.tokenizer', name:'Tokenizer', desc:'OpenNLP Tokenizer', type:'OpenNLP', license:'APACHE'],
-    [id:'opennlp.tagger', name:'Tagger', desc:'OpenNLP POS Tagger', type:'OpenNLP', license:'APACHE'],
-    [id:'stanford.splitter', name:'SentenceSplitter', desc:'Stanford SentenceSplitter', type:'Stanford', license:'GPL'],
-    [id:'stanford.tokenizer', name:'Tokenizer', desc:'Stanford Tokenizer', type:'Stanford', license:'GPL'],
-    [id:'stanford.tagger', name:'Tagger', desc:'Stanford POS Tagger', type:'Stanford', license:'GPL'],
+    [id:'gate.tagger', name:'POSTagger', desc:'GATE POS Tagger', type:'Gate', license:'GPL']
 ]
 
-services.each { s ->
-    service {
-        id s.id
-        name "${s.type} ${s.name}"
-        url "${Servers.LOCALHOST}/${s.type}Services/services/${s.name}"
-        protocol 'SOAP_RPC_ENCODED'
-        domain DOMAIN
-        type SERVICE
-        copyright COPYRIGHT
-        resource NONE
-        license "${s.license}"
-        description s.desc
-        allow 'commercial','nonprofit','research'
-        control 'client','server'
-        federate true
+services.opennlp = [
+    [id:'opennlp.splitter', name:'SentenceSplitter', desc:'OpenNLP SentenceSplitter', type:'OpenNLP', license:'APACHE'],
+    [id:'opennlp.tokenizer', name:'Tokenizer', desc:'OpenNLP Tokenizer', type:'OpenNLP', license:'APACHE'],
+    [id:'opennlp.tagger', name:'Tagger', desc:'OpenNLP POS Tagger', type:'OpenNLP', license:'APACHE']
+]
+
+services.stanford = [
+    [id:'stanford.splitter', name:'SentenceSplitter', desc:'Stanford SentenceSplitter', type:'Stanford', license:'GPL'],
+    [id:'stanford.tokenizer', name:'Tokenizer', desc:'Stanford Tokenizer', type:'Stanford', license:'GPL'],
+    [id:'stanford.tagger', name:'Tagger', desc:'Stanford POS Tagger', type:'Stanford', license:'GPL']
+]
+
+['gate','opennlp','stanford'].each { type ->
+    if (defined(type)) {
+        define_services(services[type])
     }
-    news "Configured service ${s.type} ${s.name}"
 }
 
+comment "LAPPS database has been initialized."
+return
+
+// Test if the given string was passed in as one of the command line arguments.
+boolean defined(type) {
+    if (args == null || args.size() == 0) {
+        return true
+    }
+    return args.contains(type)
+}
+
+void define_services(services) {
+    services.each { s ->
+        service {
+            id s.id
+            name "${s.type} ${s.name}"
+            url "${Servers.LOCALHOST}/${s.type}Services/services/${s.name}"
+            protocol 'SOAP_RPC_ENCODED'
+            domain DOMAIN
+            type SERVICE
+            copyright COPYRIGHT
+            resource NONE
+            license "${s.license}"
+            description s.desc
+            allow 'commercial','nonprofit','research'
+            control 'client','server'
+            federate true
+        }
+        news "Configured service ${s.type} ${s.name}"
+    }
+}
 

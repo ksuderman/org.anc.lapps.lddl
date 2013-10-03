@@ -102,12 +102,6 @@ class DatabaseDsl {
             sql = Sql.newInstance(databaseInfo.fields.url, databaseInfo.fields.username, databaseInfo.fields.password,'org.postgresql.Driver')
         }
 
-//        meta.grid = { Closure cl ->
-//            cl.delegate = new GridDelegate()
-//            cl.resolveStrategy = Closure.DELEGATE_FIRST
-//            cl()
-//        }
-
         meta.domain = { Closure cl ->
             cl.delegate = new DomainDelegate()
             cl.resolveStrategy = Closure.DELEGATE_FIRST
@@ -238,7 +232,7 @@ java -jar lddl-x.y.z.jar /path/to/script [arg0, arg1, ..., argn]"
             return
         }
 
-        def argv = null
+        def argv = []
         if (args.size() > 1) {
             // Everything after the script name is passed along as the
             // script's command line arguments.
