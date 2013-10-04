@@ -18,3 +18,5 @@ dist
 Makefile
 install.sh
 data.groovy
+
+*.zip
