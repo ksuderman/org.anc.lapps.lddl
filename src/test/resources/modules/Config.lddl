@@ -6,7 +6,8 @@
 DOMAIN = 'lapps.nlp'
 COPYRIGHT = 'Copyright 2013 American National Corpus'
 
-/* Service types.
+/*
+ * Service types.
  *
  * Currently LAPPS has two service types (as far as the service
  * manager is concerned): data sources and processing services.
@@ -14,7 +15,8 @@ COPYRIGHT = 'Copyright 2013 American National Corpus'
 SERVICE = 'lapps.service.service'
 DATASOURCE = 'lapps.service.datasource'
 
-/* Resource types
+/*
+ * Resource types
  *
  * The service manager requires a "resource" for every service
  */

@@ -4,7 +4,6 @@
  *
  * The indices and stored procedure can not be added at this time as the
  * service manager needs to be run to create all the required tables.
-
  */
 
 // Connect as the PostgreSQL superuser since we need to drop

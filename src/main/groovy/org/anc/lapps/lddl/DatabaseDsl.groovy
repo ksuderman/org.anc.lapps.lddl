@@ -1,6 +1,7 @@
 package org.anc.lapps.lddl
 
 import groovy.sql.Sql
+import java.security.MessageDigest
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 
@@ -44,6 +45,9 @@ class DatabaseDsl {
         Script script = shell.parse(scriptString)
         if (args != null && args.size() > 0) {
             script.binding.setVariable("args", args)
+        }
+        else {
+            script.binding.setVariable('args', [])
         }
 
         // Running the script will generate a list of SQL statements
@@ -165,18 +169,22 @@ class DatabaseDsl {
             statements << cl.delegate
         }
 
+        meta.user = { Closure cl ->
+            cl.delegate = new UserDelegate()
+            cl.resolveStrategy = Closure.DELEGATE_FIRST
+            cl()
+            statements << cl.delegate
+        }
+
         meta.sql = { String statement ->
-            //println "SQL Statment: ${statement}"
             statements << new SqlDelegate(statement)
         }
 
         meta.news = { String content ->
-            //println "Found news: ${content}"
             statements << new NewsDelegate(content)
         }
 
         meta.comment = { String comment ->
-//            println("Comment: ${comment}")
             statements << new CommentDelegate(comment)
         }
 

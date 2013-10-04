@@ -1,0 +1,16 @@
+include 'Config'
+include 'DB'
+
+/* Register users for each of the ANC nodes. */
+[2,3,4].each {
+	user {
+		id "anc${it}"
+		password 'password'
+		name 'Keith Suderman'
+		address 'New York'
+		email 'suderman@anc.org'
+		homepage "http://${it}.anc.org:8080/service_manager"
+		organization "ANC ${it}"
+	}
+	news "Registered user ${it}"
+}

@@ -4,6 +4,7 @@ import groovy.sql.*
 import org.postgresql.largeobject.LargeObject
 import org.postgresql.largeobject.LargeObjectManager
 
+import java.security.MessageDigest
 import java.sql.Connection
 import java.text.SimpleDateFormat
 import java.util.zip.ZipEntry
@@ -83,6 +84,13 @@ abstract class AbstractTableDelegate extends AbstractDelegate {
         }
         return id
     }
+
+    String encodePassword(String password) {
+        MessageDigest md = MessageDigest.getInstance('SHA-512')
+        def digest = md.digest(password.getBytes('US-ASCII'))
+        return String.format('%0128x', new BigInteger(1, digest))
+    }
+
 
     synchronized LargeObjectManager getManager(Connection connection) {
         if (manager == null) {

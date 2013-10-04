@@ -23,15 +23,16 @@ data = [
     [table:'protocol', column:'ownerusergridid', value:GRID_ID],
     [table:'resource', column:'gridid', value:GRID_ID],
     [table:'service', column:'gridid', value:GRID_ID],
-    [table:'domain', column:'domainid', value:DOMAIN]
+    [table:'domain', column:'domainid', value:DOMAIN],
+    [table:'users', column:'gridid', value:GRID_ID],
 ]
 
 data.each { row ->
     sql "delete from ${row.table} where ${row.column} = '${row.value}'".toString()
 }
 
-// Deleting from the news table is a special case since we need to
-// match on two columns
+// Deleting from the news and userroles tables are special cases since we need to
+// match on more than one column.
 sql "delete from news where gridid = '${GRID_ID}' and nodeid = '${NODE_ID}'"
-
+sql "delete from userroles where gridid = '${GRID_ID}' and userid <> '${GRID_USER_ID}'"
 news 'The database was cleared of all LAPPS related data.'

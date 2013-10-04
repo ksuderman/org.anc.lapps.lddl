@@ -57,7 +57,8 @@ data = [
     [table:'protocol', column:'ownerusergridid', value:GRID_ID],
     [table:'resource', column:'gridid', value:GRID_ID],
     [table:'service', column:'gridid', value:GRID_ID],
-    [table:'domain', column:'domainid', value:DOMAIN]
+    [table:'domain', column:'domainid', value:DOMAIN],
+    [table:'users', column:'gridid', value:GRID_ID]
 ]
 
 data.each { row ->
@@ -68,8 +69,23 @@ data.each { row ->
 // match on two columns.  This prevents the News page from being cluttered
 // with entries from each run.
 sql "delete from news where gridid = '${GRID_ID}' and nodeid = '${NODE_ID}'"
+sql "delete from userroles where gridid = '${GRID_ID}' and userid <> '${GRID_USER_ID}'"
 
 news 'The database was cleared of all LAPPS related data.'
+
+/* Register users for each of the ANC nodes. */
+[2,3,4].each {
+	user {
+		id "anc${it}"
+		password 'password'
+		name 'Keith Suderman'
+		address 'New York'
+		email 'suderman@anc.org'
+		homepage "http://${it}.anc.org:8080/service_manager"
+		organization "ANC ${it}"
+	}
+	news "Registered user ${it}"
+}
 
 /*
  * Define the LAPPS domain.
