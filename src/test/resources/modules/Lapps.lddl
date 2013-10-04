@@ -11,5 +11,6 @@ include 'Resources'
 include 'Service'
 include 'Interfaces'
 include 'Services'
+include 'Users'
 
 news 'The LAPPS grid database has been configured via LDDL'

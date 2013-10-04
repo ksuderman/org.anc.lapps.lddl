@@ -20,3 +20,7 @@ install.sh
 data.groovy
 
 *.zip
+
+*.zip
+
+src/test/resources/lddl-scripts.zip
