@@ -218,7 +218,9 @@ class DatabaseDsl {
             }
 
             File file = filemaker(filename)
-            if (!file.exists()) {
+            if (!file.exists() || file.isDirectory()) {
+                // See if there is file with the given name and an lddl
+                // extension.
                 file = filemaker(filename + ".lddl")
                 if (!file.exists()) {
                     throw new FileNotFoundException(filename)

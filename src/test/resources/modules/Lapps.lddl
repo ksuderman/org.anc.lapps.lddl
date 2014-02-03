@@ -4,6 +4,6 @@
  */
 include 'DatabaseSetup'
 include 'Setup'
-include 'Services.lddl'
+include 'Services'
 
 news 'The ANC/Vassar LAPPS node has been configured via LDDL'
