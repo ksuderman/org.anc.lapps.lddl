@@ -31,15 +31,74 @@ class ServiceDelegate extends AbstractTableDelegate {
         return null
     }
 
+    // This is NOT (and shoult not be) called by the execute method. This is
+    // only used during debugging to print the SQL.
+    @Override
+    String[] asSql() {
+        def stmts = []
+        long zipId = 1
+        int size = Math.random() * 16 * 1024
+        long oid = 5
+        def now = timestamp()
+        StringBuilder buffer = new StringBuilder()
+        buffer << "'ExternalService'"
+        [GRID_ID, fields.id,now,now,true,true,'ATOMIC',fields.copyright,fields.federate,zipId,size,0,fields.license,false,GRID_USER_ID,fields.resource,fields.description,fields.name,fields.domain,fields.type,false,0,false,true,oid].each {
+            buffer << ",'${it}'"
+        }
+        stmts << "insert into service (${SERVICE_COLUMNS}) values (${buffer.toString()})".toString()
+
+        def allowedControl = fields.control
+        if (allowedControl == null) {
+            throw new DelegateException("No values have been provided for the control of the service.")
+        }
+        if (allowedControl instanceof String) {
+            //provision(sql, fields.id, allowedControl)
+            stmts << "Provision ${fields.id} controlled by ${allowedControl}"
+        }
+        else {
+            allowedControl.each { allowed ->
+                // provision(sql, fields.id, allowed)
+                stmts << "Provision ${fields.id} controlled by ${allowedControl}"
+            }
+        }
+
+        def allowedUse = fields.allow
+        if (allowedUse == null) {
+            throw new DelegateException("No values have been provided for the allowed use of the service.")
+        }
+        if (allowedUse instanceof String) {
+            //allowUse(sql, fields.id, allowedUse)
+            stmts << "Allow use ${fields.id} ${allowedUse}"
+        }
+        else {
+            allowedUse.each { allowed ->
+//                allowUse(sql, fields.id, allowed)
+                stmts << "Allow use ${fields.id} ${allowed}"
+            }
+        }
+
+        buffer = new StringBuilder()
+        buffer << "'${GRID_ID}'"
+        [fields.protocol,fields.id,fields.url,now,now,0,true,0].each {
+            buffer << ",'${it}'"
+        }
+        stmts << "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${buffer.toString()})"
+        return stmts as String[]
+    }
+
     @Override
     void execute(Sql sql) {
         validateFields()
-        //println "Fetching WSDL from ${fields.url}"
+
+        // Fetch the WSDL file from the server.
         String wsdl = new URL("${fields.url}?wsdl").text
+
         // Save the wsdl as a LargeObject in the database.
         long zipId = writeZipObject(sql, fields.name, wsdl)
         int size = wsdl.bytes.size()
         long oid = writeLargeObject(sql, wsdl)
+
+        // Now we have the info needed to update the database.
         def now = timestamp()
         StringBuilder buffer = new StringBuilder()
         buffer << "'ExternalService'"

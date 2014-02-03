@@ -14,9 +14,6 @@ class SqlDelegate extends AbstractTableDelegate {
     }
 
     @Override
-    Set fieldNames() { return null }
-
-    @Override
     String table() { return null }
 
     @Override
@@ -26,11 +23,17 @@ class SqlDelegate extends AbstractTableDelegate {
     String values() { return null }
 
     @Override
-    String asSql() { return statement }
+    String[] asSql() { return [ statement ] as String[] }
 
-    @Override
-    void execute(Sql sql) {
-//        println "Executing SQL : ${statement}"
-        sql.execute(statement)
-    }
+//    void methodMissing(String name, args) {
+//        println "SqlDelegate.methodMissing: ${name}"
+//        println statement
+//        super.methodMissing(name, args)
+//    }
+
+//    @Override
+//    void execute(Sql sql) {
+////        println "Executing SQL : ${statement}"
+//        sql.execute(statement)
+//    }
 }

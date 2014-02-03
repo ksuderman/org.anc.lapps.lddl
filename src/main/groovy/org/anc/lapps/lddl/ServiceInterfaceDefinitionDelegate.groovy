@@ -6,13 +6,6 @@ import groovy.sql.Sql
  * @author Keith Suderman
  */
 class ServiceInterfaceDefinitionDelegate extends AbstractTableDelegate {
-//    String id
-//    String url
-//    String protocol
-//    String domain
-//    String servicetype
-    //String valueCache
-
     @Override
     Set fieldNames() {
         if (namesCache == null) {
@@ -44,6 +37,26 @@ class ServiceInterfaceDefinitionDelegate extends AbstractTableDelegate {
 //        }
 //        return valueCache
         return null
+    }
+
+    @Override
+    String[] asSql() {
+        validateFields()
+        // Get the wsdl for the service interface
+        // Get the next available servicetypeid
+        int nextId = 1;
+
+//        sql.connection.autoCommit = false
+        long loid = 2
+//        sql.connection.autoCommit = true
+        StringBuilder buffer = new StringBuilder()
+        buffer << "'${nextId}'"
+        [loid,fields.protocol,fields.domain,fields.type].each {
+            buffer << ",'${it}'"
+        }
+
+        def stmt = "insert into ${table()} (${columns()}) values (${buffer.toString()})".toString()
+        return [ stmt ] as String[]
     }
 
     @Override

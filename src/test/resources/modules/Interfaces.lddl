@@ -1,17 +1,17 @@
 /*
  * LAPPS only uses two interface definitions; one interface for data sources
- * and another for web services.
+ * and another for web services.  The WSDL files should be in the same directory
+ * as this script.
  */
 
 include 'Config'
-include 'DB'
+include 'Database'
 
 serviceInterfaceDefinition {
     name 'LAPPS DataSource'
 	domain DOMAIN
 	type DATASOURCE
 	protocol 'SOAP_RPC_ENCODED'
-	//url "${Servers.GRID}/service_manager/wsdl/anc:MASC_DATA"
 	url 'file:Datasource.wsdl'
 }
 

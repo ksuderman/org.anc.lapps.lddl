@@ -1,5 +1,9 @@
+/*
+ * Service meta-attributes and types.
+ */
+
 include 'Config'
-include 'DB'
+include 'Database'
 
 serviceMetaAttribute {
 	id 'service.meta.lang'

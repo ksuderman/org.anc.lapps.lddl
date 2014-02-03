@@ -23,20 +23,27 @@ abstract class AbstractTableDelegate extends AbstractDelegate {
     LargeObjectManager manager
     static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS")
 
+    static Integer nextId
+
     String timestamp() {
         return dateFormat.format(new Date())
     }
 
-    String asSql() {
+    String[] asSql() {
         validateFields()
-        "insert into ${table()} (${columns()}) values (${values()})"
+        [ "insert into ${table()} (${columns()}) values (${values()})" ] as String[]
     }
 
     void execute(Sql sql) {
-        sql.execute(asSql())
+        asSql().each { stmt ->
+            sql.execute(stmt)
+        }
     }
 
     int getNext(Sql sql, String table, String column) {
+        if (nextId != null) {
+            return nextId++
+        }
         Integer max = sql.firstRow("select max(${column}) from ${table}".toString())?.values()[0]
         if (max != null) {
             return max + 1
@@ -45,6 +52,9 @@ abstract class AbstractTableDelegate extends AbstractDelegate {
     }
 
     int getNextId(Sql sql) {
+        if (nextId != null) {
+            return nextId++
+        }
         return sql.firstRow("select nextval('hibernate_sequence')").values()[0]
     }
 

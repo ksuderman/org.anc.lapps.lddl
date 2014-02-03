@@ -9,7 +9,7 @@
  */
 
 include 'Config'
-include 'DB'
+include 'Database'
 
 sql new File('create_indices.sql').text
 sql new File('create_storedproc.sql').text

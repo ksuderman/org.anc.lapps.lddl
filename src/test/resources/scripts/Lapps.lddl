@@ -1,23 +1,19 @@
 /*
- * An all-in-one uber-script that performs all initialization in
- * one script.
+ * An all-in-one uber-script that performs all LAPPS DB initialization.
  */
 
-/*
- * Global variables.
- */
 DOMAIN = 'lapps.nlp'
 
 // Each institution should define their own copyright notice.
 COPYRIGHT = 'Copyright 2013 American National Corpus'
 
-// Service types.
-SERVICE = 'lapps.service.service'
-DATASOURCE = 'lapps.service.datasource'
-
 // Resource types
 CORPUS = 'lapps.resource.corpus'
 NONE = 'lapps.resource.none'
+
+// Service types.
+SERVICE = 'lapps.service.service'
+DATASOURCE = 'lapps.service.datasource'
 
 // License types. This list is by no means exhaustive.
 APACHE = 'Apache 2.0'
@@ -26,12 +22,15 @@ GPL = 'GPL'
 // Server URLs
 Servers = [:]
 Servers.LOCALHOST = 'http://localhost:8080'
-Servers.GRID = 'http://grid.anc.org:8080'
+Servers.ANC = 'http://grid.anc.org:8080'
 Servers.LDC = '...'
 Servers.CMU = '...'
+Servers.BRANDEIS = '...'
+
+Servers.DEFAULT = Servers.ANC
 
 /*
- * Database connection information.
+ * Database configuration.
  */
 database {
     url 'jdbc:postgresql://localhost/langrid'
@@ -39,10 +38,8 @@ database {
     password 'langrid'
 }
 
-/*
- * Database cleanup. Remove data from any previous runs.
- */
-data = [
+// Remove data from any previous runs.
+[
     [table:'serviceendpoint', column:'gridid', value:GRID_ID],
     [table:'service_alloweduse', column:'service_gridid', value:GRID_ID],
     [table:'service_allowedappprovision', column:'service_gridid', value:GRID_ID],
@@ -58,15 +55,12 @@ data = [
     [table:'resource', column:'gridid', value:GRID_ID],
     [table:'service', column:'gridid', value:GRID_ID],
     [table:'domain', column:'domainid', value:DOMAIN]
-]
-
-data.each { row ->
+].each { row ->
     sql "delete from ${row.table} where ${row.column} = '${row.value}'".toString()
 }
 
-// Deleting from the news table is a special case since we need to
-// match on two columns.  This prevents the News page from being cluttered
-// with entries from each run.
+// Deleting from these tables are special cases since we need to
+// match on two columns. 
 sql "delete from news where gridid = '${GRID_ID}' and nodeid = '${NODE_ID}'"
 sql "delete from userroles where gridid = '${GRID_ID}' and userid <> '${GRID_USER_ID}'"
 sql "delete from users where gridid = '${GRID_ID}' and userid <> '${GRID_USER_ID}'"
@@ -252,10 +246,11 @@ news 'Commercial use is now allowed.'
 MASC = 'MASC-3.0.0'
 
 // Base URL for data source services.
-DS_BASE_URL= "${Servers.LOCALHOST}/MascDataSource/services"
+BASE_URL= "${Servers.DEFAULT}/MascDataSource/services"
 
 datasources = [
     [id:'masc.text', name:'MascTextSource', desc:'Datasource for MASC text files.'],
+    [id:'masc.text.json', name:'MascJsonTextSource', desc:'JSON-LD Datasource for MASC text files.'],
     [id:'masc.data', name:'MascDataSource', desc:'Datasource for MASC files.'],
     [id:'masc.headers', name:'MascHeaderSource', desc:'Datasource for MASC header files.']
 ]

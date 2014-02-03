@@ -1,0 +1,7 @@
+if (args != null) {
+    println "There are ${args.size()} command line parameters."
+    args.each { println it }
+}
+else {
+    println "No command line parameters found."
+}

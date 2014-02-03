@@ -19,7 +19,7 @@ class UserDelegate extends AbstractTableDelegate {
 
     @Override
     String columns() {
-        return null //""
+        return 'gridid,userid,createddatetime,updateddatetime,abletocallservices,address,defaultappprovisiontype,defaultusetype,emailaddress,homepageurlclazz,homepageurlstringvalue,organization,password,passwordchangeddate,representative,visible'
     }
 
     @Override
@@ -28,9 +28,9 @@ class UserDelegate extends AbstractTableDelegate {
     }
 
     @Override
-    void execute(Sql sql) {
+    String[] asSql() {
+        def statements = []
         validateFields()
-        String columns = 'gridid,userid,createddatetime,updateddatetime,abletocallservices,address,defaultappprovisiontype,defaultusetype,emailaddress,homepageurlclazz,homepageurlstringvalue,organization,password,passwordchangeddate,representative,visible'
         def now = timestamp()
         def password = encodePassword(fields.password)
         StringBuilder values = new StringBuilder()
@@ -39,10 +39,9 @@ class UserDelegate extends AbstractTableDelegate {
             values << ','
             values << "'${it}'"
         }
-        String stmt = "insert into users (${columns}) values (${values.toString()})"
-        sql.execute(stmt)
-
-        stmt = "insert into userroles (gridid,userid,rolename) values ('${GRID_ID}','${fields.id}','langriduser')"
-        sql.execute(stmt)
+        statements << "insert into users (${columns()}) values (${values.toString()})"
+        statements << "insert into userroles (gridid,userid,rolename) values ('${GRID_ID}','${fields.id}','langriduser')"
+        return statements as String[]
     }
+
 }

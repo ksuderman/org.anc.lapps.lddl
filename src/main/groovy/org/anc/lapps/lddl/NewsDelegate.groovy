@@ -13,12 +13,6 @@ class NewsDelegate extends AbstractTableDelegate {
         this.content = content
     }
 
-
-    @Override
-    Set fieldNames() {
-        return null
-    }
-
     @Override
     String table() {
         return 'news'
@@ -31,8 +25,27 @@ class NewsDelegate extends AbstractTableDelegate {
 
     @Override
     String values() {
-        return null
+        def now = timestamp()
+        StringBuilder buffer = new StringBuilder()
+        buffer << "'???'"
+        [now,now,content,GRID_ID,NODE_ID,'???'].each {
+            buffer << ",'${it}'"
+        }
+        return buffer.toString()
     }
+
+//    @Override
+//    String[] asSql() {
+//        def now = timestamp()
+//        def id = 1
+//        StringBuilder buffer = new StringBuilder()
+//        buffer << "'${id}'"
+//        [now,now,content,GRID_ID,NODE_ID,id].each {
+//            buffer << ",'${it}'"
+//        }
+//        String stmt = "insert into news (${columns()}) values (${buffer.toString()})".toString()
+//        return [ stmt ] as String[]
+//    }
 
     @Override
     void execute(Sql sql) {
