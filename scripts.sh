@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Zips the example script files in the modules and scripts directories.
+
 set -eu
 
 RES=src/test/resources

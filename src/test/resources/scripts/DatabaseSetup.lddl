@@ -3,7 +3,7 @@
  * script you must:
  *
  * 1. Create a database named 'langrid' and set the owner to 'langrid'.
- *    The CreateDB.lddl script can be used for this.
+ *    The DatabaseCreate.lddl script can be used for this.
  * 2. Start and stop the service manager.  This will cause the service
  *    manager to create all the required tables.
  */

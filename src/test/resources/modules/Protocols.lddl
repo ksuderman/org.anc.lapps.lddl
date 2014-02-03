@@ -5,7 +5,7 @@
  */
 
 include 'Config'
-include 'DB'
+include 'Database'
 
 protocol {
 	id 'SOAP_RPC_ENCODED'

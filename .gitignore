@@ -13,13 +13,12 @@ VERSION
 # Temporary files #
 *~
 dist
+.DS_Store
 
 # Custom #
 Makefile
 install.sh
 data.groovy
-
-*.zip
 
 *.zip
 

@@ -1,16 +1,9 @@
 /*
- * A modular LDDL script for configuring the LAPPS database. This script
- * does nothing but include other scripts that do all the work.
+ * The LDDL script for configuring the ANC/Vassar LAPPS service node.  This
+ * script configures the types, interfaces and services available.
  */
-include 'Config'
-include 'DB'
-include 'Cleanup'
-include 'Domains'
-include 'Protocols'
-include 'Resources'
-include 'Service'
-include 'Interfaces'
-include 'Services'
-include 'Users'
+include 'DatabaseSetup'
+include 'Setup'
+include 'Services.lddl'
 
-news 'The LAPPS grid database has been configured via LDDL'
+news 'The ANC/Vassar LAPPS node has been configured via LDDL'

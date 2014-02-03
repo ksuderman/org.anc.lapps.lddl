@@ -1,5 +1,6 @@
 include 'Config'
-include 'DB'
+include 'Domains'
+include 'Database'
 
 resourceMetaAttribute {
 	id 'resource.meta.lang'
@@ -23,51 +24,51 @@ resourceMetaAttribute {
 }
 
 resourceType {
-	id CORPUS
+	id 'resource.type.corpus'
 	name 'Corpus'
 	domain DOMAIN
 	description 'A resource that contains a single corpus.'
 }
 
 resourceType {
-	id 'lapps.resource.corpora'
+	id 'resource.type.corpora'
 	name 'Corpora'
 	domain DOMAIN
 	description 'A resource that contains multiple corpora.'
 }
 
 resourceType {
-    id 'lapps.resource.dictionary'
+    id 'resource.type.dictionary'
     name 'Dictionary'
     domain DOMAIN
     description 'Dictionary'
 }
 
 resourceType {
-    id NONE
+    id 'resource.type.null'
     name 'The NULL resource type'
     domain DOMAIN
-    description "A type for resources that do not take a type."
+    description "A type for resources that do not require a type."
 }
 
 resource {
-    id 'MASC-3.0.0'
+    id MASC_ID
     copyright COPYRIGHT
     license APACHE
     description 'MASC 3.0.0'
     name 'MASC 3.0.0'
     domain DOMAIN
-    type CORPUS
+    type CORPUS_TYPE
 }
 
 resource {
-    id NONE
+    id NONE_ID
     copyright COPYRIGHT
     license APACHE
     description 'A resource for services that do not require a resource.'
     name 'None'
     domain DOMAIN
-    type NONE
+    type NONE_TYPE
 }
 
 news 'LAPPS resources have been registered.'

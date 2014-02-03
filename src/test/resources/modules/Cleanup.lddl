@@ -1,12 +1,12 @@
 /*
  * Removes all LAPPS related data from the service grid database.
  *
- * NOTE: The order the deletes is important to prevent foreign key
+ * NOTE: The order of the deletes is important to prevent foreign key
  * violations.
  */
 
 include 'Config'
-include 'DB'
+include 'Database'
 
 data = [
     [table:'serviceendpoint', column:'gridid', value:GRID_ID],

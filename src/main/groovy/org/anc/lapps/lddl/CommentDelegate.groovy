@@ -13,8 +13,8 @@ class CommentDelegate extends AbstractDelegate {
     }
 
     @Override
-    Set fieldNames() {
-        return null
+    String[] asSql() {
+        return [ "# ${comment}" ] as String[]
     }
 
     void execute(Sql sql) {

@@ -3,7 +3,7 @@
  */
 
 include 'Config'
-include 'DB'
+include 'Database'
 
 domain {
 	id DOMAIN

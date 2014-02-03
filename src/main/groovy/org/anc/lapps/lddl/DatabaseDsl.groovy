@@ -15,6 +15,7 @@ class DatabaseDsl {
     Set<String> included = new HashSet<String>()
     Sql sql
     Binding bindings = new Binding()
+    static boolean debug = false
 
     void run(File file, args) {
         parentDir = file.parentFile
@@ -56,7 +57,7 @@ class DatabaseDsl {
         script.run()
 
         // Make sure the DB is configured. If we don't have a database
-        // connection there is no use running SQL statements.
+        // connection there is no sense running SQL statements.
         try {
             databaseInfo.validateFields()
         }
@@ -66,8 +67,19 @@ class DatabaseDsl {
         }
 
         // Now execute the SQL statements.
-        statements.each {
-            it.execute(sql)
+        if (debug) {
+            statements.each { stmt ->
+                stmt.asSql().each {
+                    println it
+                    println()
+                }
+            }
+        }
+        else {
+            statements.each { stmt ->
+//                println "${stmt.class.name} : ${stmt.asSql()}"
+                stmt.execute(sql)
+            }
         }
     }
 
@@ -220,9 +232,9 @@ class DatabaseDsl {
 
 
             // Parse and run the script.
-            Script included = shell.parse(file)
-            included.metaClass = getMetaClass(included.class, shell)
-            included.run()
+            Script includedScript = shell.parse(file)
+            includedScript.metaClass = getMetaClass(includedScript.class, shell)
+            includedScript.run()
         }
 
         meta.initialize()
@@ -238,6 +250,16 @@ java -jar lddl-x.y.z.jar /path/to/script [arg0, arg1, ..., argn]"
 
 """
             return
+        }
+
+        if (args.size() > 1) {
+            println args
+            if (args[0] == "-debug") {
+                println "Enabling debug mode."
+                args = args[1..-1]
+                debug = true
+                AbstractTableDelegate.nextId = 0
+            }
         }
 
         def argv = []

@@ -11,10 +11,15 @@ abstract class AbstractDelegate {
     static String GRID_USER_ID = 'operator1'
 
     Map fields = [:]
-    abstract Set fieldNames()
     Set namesCache
 
+    Set fieldNames() {
+        return [] as HashSet
+    }
+    abstract String[] asSql()
+
     void methodMissing(String name, args) {
+//        println "Missing Method: ${name}, ${args}"
         if (fieldNames().contains(name)) {
             if (args.size() == 1) {
                 fields[name] = args[0]

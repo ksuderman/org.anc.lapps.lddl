@@ -1,86 +1,15 @@
 /*
- * Registers the services available on the ANC's LAPPS node.
+ * A modular LDDL script for configuring the LAPPS services available on the 
+ * ANC/Vassar service node.
  */
 
-include 'Config'
-include 'DB'
+include 'services/Datasources'
+include 'services/Datasources.1.3.0'
+//include 'Converters'
+include 'services/Converters.0.1.0'
+include 'services/ServicesGate'
+include 'services/ServicesOpenNLP'
+include 'services/ServicesStanford'
+include 'Users'
 
-// Resource used by the data sources.
-MASC = 'MASC-3.0.0'
-
-// Base URL for data source services.
-DS_BASE_URL= "${Servers.LOCALHOST}/MascDataSource/services"
-
-datasources = [
-    [id:'masc.text', name:'MascTextSource', desc:'Datasource for MASC text files.'],
-    [id:'masc.data', name:'MascDataSource', desc:'Datasource for MASC files.'],
-    [id:'masc.headers', name:'MascHeaderSource', desc:'Datasource for MASC header files.']
-]
-
-datasources.each { source ->
-    service {
-        id source.id
-        name source.name
-        url "${DS_BASE_URL}/${source.name}"
-        description source.desc
-        protocol 'SOAP_RPC_ENCODED'
-        domain DOMAIN
-        type DATASOURCE
-        copyright COPYRIGHT
-        resource MASC
-        license APACHE
-        allow 'commercial','nonprofit','research'
-        control 'client','server'
-        federate true
-    }
-    news "Configured ${source.name}"
-}
-
-services = [:]
-services.gate = [
-    [id:'gate.splitter', name:'SentenceSplitter', desc:'GATE SentenceSplitter', type:'Gate', license:'GPL'],
-    [id:'gate.tokenizer', name:'Tokenizer', desc:'GATE Tokenizer', type:'Gate', license:'GPL'],
-    [id:'gate.tagger', name:'POSTagger', desc:'GATE POS Tagger', type:'Gate', license:'GPL']
-]
-
-services.opennlp = [
-    [id:'opennlp.splitter', name:'SentenceSplitter', desc:'OpenNLP SentenceSplitter', type:'OpenNLP', license:'APACHE'],
-    [id:'opennlp.tokenizer', name:'Tokenizer', desc:'OpenNLP Tokenizer', type:'OpenNLP', license:'APACHE'],
-    [id:'opennlp.tagger', name:'Tagger', desc:'OpenNLP POS Tagger', type:'OpenNLP', license:'APACHE']
-]
-
-services.stanford = [
-    [id:'stanford.splitter', name:'SentenceSplitter', desc:'Stanford SentenceSplitter', type:'Stanford', license:'GPL'],
-    [id:'stanford.tokenizer', name:'Tokenizer', desc:'Stanford Tokenizer', type:'Stanford', license:'GPL'],
-    [id:'stanford.tagger', name:'Tagger', desc:'Stanford POS Tagger', type:'Stanford', license:'GPL']
-]
-
-if (args.size() == 0) {
-    register_services(services.gate)
-    register_services(services.opennlp)
-    register_services(services.stanford)
-}
-else {
-    args.each { register_services(services[it]) }
-}
-
-void register_services(list) {
-    list.each { s ->
-        service {
-            id s.id
-            name "${s.type} ${s.name}"
-            url "${Servers.LOCALHOST}/${s.type}Services/services/${s.name}"
-            protocol 'SOAP_RPC_ENCODED'
-            domain DOMAIN
-            type SERVICE
-            copyright COPYRIGHT
-            resource NONE
-            license "${s.license}"
-            description s.desc
-            allow 'commercial','nonprofit','research'
-            control 'client','server'
-            federate true
-        }
-        news "Configured ${s.type} ${s.name}"
-    }
-}
+news 'The ANC LAPPS services have been configured via LDDL'
