@@ -10,6 +10,10 @@ class ServiceDelegate extends AbstractTableDelegate {
     static final String SERVICE_COLUMNS = 'dtype,gridid,serviceid,createddatetime,updateddatetime,active,approved,containertype,copyrightinfo,federateduseallowed,instance,instancesize,instancetype,licenseinfo,membersonly,owneruserid,resourceid,servicedescription,servicename,servicetypedomainid,servicetypeid,streaming,timeoutmillis,usealternateservice,visible,wsdl'
     static final String ENDPOINT_COLUMNS = 'gridid,protocolid,serviceid,url,createddatetime,updateddatetime,averesponsemillis,enabled,experience'
 
+    static final String SERVICE_ATTRIBUTE_COLUMNS = "gridid, name, serviceid, createddatetime, updateddatetime, value"
+    // here SERVICE_ATTRIBUTE_COLUMNS (value) is Language
+
+
     @Override
     Set fieldNames() {
         if (namesCache == null) {
@@ -83,6 +87,16 @@ class ServiceDelegate extends AbstractTableDelegate {
             buffer << ",'${it}'"
         }
         stmts << "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${buffer.toString()})"
+
+        // update serviceattribute
+        buffer.setLength(0)
+        // http://en.wikipedia.org/wiki/IETF_language_tag
+        if (fields.lang == null)
+            fields.lang = "en"
+        [GRID_ID,"",fields.id,now,now,fields.lang].each {
+            buffer << ",'${it}'"
+        }
+        stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
         return stmts as String[]
     }
 
@@ -134,12 +148,24 @@ class ServiceDelegate extends AbstractTableDelegate {
             }
         }
 
-        buffer = new StringBuilder()
+        buffer.setLength(0)
         buffer << "'${GRID_ID}'"
         [fields.protocol,fields.id,fields.url,now,now,0,true,0].each {
             buffer << ",'${it}'"
         }
         stmt = "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${buffer.toString()})"
+        sql.execute(stmt.toString())
+
+
+        // update serviceattribute
+        buffer.setLength(0)
+        // http://en.wikipedia.org/wiki/IETF_language_tag
+        if (fields.lang == null)
+            fields.lang = "en"
+        [GRID_ID,"",fields.id,now,now,fields.lang].each {
+            buffer << ",'${it}'"
+        }
+        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
         sql.execute(stmt.toString())
     }
 
