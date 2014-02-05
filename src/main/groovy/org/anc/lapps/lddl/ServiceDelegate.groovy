@@ -14,6 +14,11 @@ class ServiceDelegate extends AbstractTableDelegate {
     // here SERVICE_ATTRIBUTE_COLUMNS (value) is Language
 
 
+    static final String SERVICETYPE_SERVICEMETAATTRIBUTE_COLUMNS = "servicetype_domainid, servicetype_servicetypeid, metaattributes_attributeid, metaattributes_domainid"
+    // here SERVICETYPE_SERVICEMETAATTRIBUTE (values)
+
+
+
     @Override
     Set fieldNames() {
         if (namesCache == null) {
@@ -93,7 +98,7 @@ class ServiceDelegate extends AbstractTableDelegate {
         // http://en.wikipedia.org/wiki/IETF_language_tag
         if (fields.lang == null)
             fields.lang = "en"
-        [GRID_ID,"",fields.id,now,now,fields.lang].each {
+        [fields.domain,"lang",fields.id,now,now,fields.lang].each {
             buffer << ",'${it}'"
         }
         stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
@@ -162,11 +167,21 @@ class ServiceDelegate extends AbstractTableDelegate {
         // http://en.wikipedia.org/wiki/IETF_language_tag
         if (fields.lang == null)
             fields.lang = "en"
-        [GRID_ID,"",fields.id,now,now,fields.lang].each {
+        [GRID_ID,"service.meta.lang",fields.id,now,now,fields.lang].each {
             buffer << ",'${it}'"
         }
         stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
         sql.execute(stmt.toString())
+
+        // update servicetype_servicemetaattribute
+        buffer.setLength(0)
+        // http://en.wikipedia.org/wiki/IETF_language_tag
+        [fields.domain,fields.type,'service.meta.lang',fields.domain].each {
+            buffer << ",'${it}'"
+        }
+        stmt = "insert into servicetype_servicemetaattribute (${SERVICETYPE_SERVICEMETAATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
+        sql.execute(stmt.toString())
+
     }
 
     void allowUse(Sql sql, String id, String type) {
