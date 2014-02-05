@@ -96,7 +96,7 @@ class ServiceDelegate extends AbstractTableDelegate {
         [GRID_ID,"",fields.id,now,now,fields.lang].each {
             buffer << ",'${it}'"
         }
-        stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
+        stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
         return stmts as String[]
     }
 
@@ -165,7 +165,7 @@ class ServiceDelegate extends AbstractTableDelegate {
         [GRID_ID,"",fields.id,now,now,fields.lang].each {
             buffer << ",'${it}'"
         }
-        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
+        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
         sql.execute(stmt.toString())
     }
 
