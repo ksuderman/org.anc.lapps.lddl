@@ -180,8 +180,11 @@ class ServiceDelegate extends AbstractTableDelegate {
             buffer << ",'${it}'"
         }
         stmt = "insert into servicetype_servicemetaattribute (${SERVICETYPE_SERVICEMETAATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
-        sql.execute(stmt.toString())
-
+        try{
+            sql.execute(stmt.toString())
+        }catch(java.sql.SQLException e) {
+        //  do nothing if already exist.
+        }
     }
 
     void allowUse(Sql sql, String id, String type) {
