@@ -167,24 +167,24 @@ class ServiceDelegate extends AbstractTableDelegate {
         // http://en.wikipedia.org/wiki/IETF_language_tag
         if (fields.lang == null)
             fields.lang = "en"
-        [GRID_ID,"service.meta.lang",fields.id,now,now,fields.lang].each {
+        [GRID_ID,fields.meta,fields.id,now,now,fields.lang].each {
             buffer << ",'${it}'"
         }
         stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
         sql.execute(stmt.toString())
 
-        // update servicetype_servicemetaattribute
-        buffer.setLength(0)
-        // http://en.wikipedia.org/wiki/IETF_language_tag
-        [fields.domain,fields.type,'service.meta.lang',fields.domain].each {
-            buffer << ",'${it}'"
-        }
-        stmt = "insert into servicetype_servicemetaattribute (${SERVICETYPE_SERVICEMETAATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
-        try{
-            sql.execute(stmt.toString())
-        }catch(java.sql.SQLException e) {
-        //  do nothing if already exist.
-        }
+//        // update servicetype_servicemetaattribute
+//        buffer.setLength(0)
+//        // http://en.wikipedia.org/wiki/IETF_language_tag
+//        [fields.domain,fields.type,'service.meta.lang',fields.domain].each {
+//            buffer << ",'${it}'"
+//        }
+//        stmt = "insert into servicetype_servicemetaattribute (${SERVICETYPE_SERVICEMETAATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
+//        try{
+//            sql.execute(stmt.toString())
+//        }catch(java.sql.SQLException e) {
+//        //  do nothing if already exist.
+//        }
     }
 
     void allowUse(Sql sql, String id, String type) {
