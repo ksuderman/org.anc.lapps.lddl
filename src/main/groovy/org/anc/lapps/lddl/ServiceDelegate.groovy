@@ -22,7 +22,7 @@ class ServiceDelegate extends AbstractTableDelegate {
     @Override
     Set fieldNames() {
         if (namesCache == null) {
-            namesCache = ['id','name','url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet
+            namesCache = ['id','name', 'lang', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet
         }
         return namesCache
     }
