@@ -10,12 +10,22 @@ class ServiceDelegate extends AbstractTableDelegate {
     static final String SERVICE_COLUMNS = 'dtype,gridid,serviceid,createddatetime,updateddatetime,active,approved,containertype,copyrightinfo,federateduseallowed,instance,instancesize,instancetype,licenseinfo,membersonly,owneruserid,resourceid,servicedescription,servicename,servicetypedomainid,servicetypeid,streaming,timeoutmillis,usealternateservice,visible,wsdl'
     static final String ENDPOINT_COLUMNS = 'gridid,protocolid,serviceid,url,createddatetime,updateddatetime,averesponsemillis,enabled,experience'
 
+    static final String SERVICE_ATTRIBUTE_COLUMNS = "gridid, name, serviceid, createddatetime, updateddatetime, value"
+    // here SERVICE_ATTRIBUTE_COLUMNS (value) is Language
+
+
+    static final String SERVICETYPE_SERVICEMETAATTRIBUTE_COLUMNS = "servicetype_domainid, servicetype_servicetypeid, metaattributes_attributeid, metaattributes_domainid"
+    // here SERVICETYPE_SERVICEMETAATTRIBUTE (values)
+
+
+
     @Override
     Set fieldNames() {
-        if (namesCache == null) {
-            namesCache = ['id','name','url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet
-        }
-        return namesCache
+//        if (namesCache == null) {
+//            namesCache = ['id','name', 'lang', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet
+//        }
+//        return namesCache
+          return ['id','name', 'lang', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet
     }
 
     @Override
@@ -83,6 +93,16 @@ class ServiceDelegate extends AbstractTableDelegate {
             buffer << ",'${it}'"
         }
         stmts << "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${buffer.toString()})"
+
+        // update serviceattribute
+        buffer.setLength(0)
+        // http://en.wikipedia.org/wiki/IETF_language_tag
+        if (fields.lang == null)
+            fields.lang = "en"
+        [fields.domain,"lang",fields.id,now,now,fields.lang].each {
+            buffer << ",'${it}'"
+        }
+        stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
         return stmts as String[]
     }
 
@@ -134,13 +154,38 @@ class ServiceDelegate extends AbstractTableDelegate {
             }
         }
 
-        buffer = new StringBuilder()
+        buffer.setLength(0)
         buffer << "'${GRID_ID}'"
         [fields.protocol,fields.id,fields.url,now,now,0,true,0].each {
             buffer << ",'${it}'"
         }
         stmt = "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${buffer.toString()})"
         sql.execute(stmt.toString())
+
+
+        // update serviceattribute
+        buffer.setLength(0)
+        // http://en.wikipedia.org/wiki/IETF_language_tag
+        if (fields.lang == null)
+            fields.lang = "en"
+        [GRID_ID,"service.meta.lang",fields.id,now,now,fields.lang].each {
+            buffer << ",'${it}'"
+        }
+        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
+        sql.execute(stmt.toString())
+
+//        // update servicetype_servicemetaattribute
+//        buffer.setLength(0)
+//        // http://en.wikipedia.org/wiki/IETF_language_tag
+//        [fields.domain,fields.type,'service.meta.lang',fields.domain].each {
+//            buffer << ",'${it}'"
+//        }
+//        stmt = "insert into servicetype_servicemetaattribute (${SERVICETYPE_SERVICEMETAATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
+//        try{
+//            sql.execute(stmt.toString())
+//        }catch(java.sql.SQLException e) {
+//        //  do nothing if already exist.
+//        }
     }
 
     void allowUse(Sql sql, String id, String type) {
