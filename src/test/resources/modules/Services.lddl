@@ -3,11 +3,12 @@
  * ANC/Vassar service node.
  */
 
+
 include 'services/Datasources'
 include 'services/Datasources.1.3.0'
 //include 'Converters'
 include 'services/Converters.0.1.0'
-include 'services/ServicesGate'
+//include 'services/ServicesGate'
 include 'services/ServicesOpenNLP'
 include 'services/ServicesStanford'
 include 'Users'
