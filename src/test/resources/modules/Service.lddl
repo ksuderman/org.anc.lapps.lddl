@@ -2,7 +2,7 @@
  * Service meta-attributes and types.
  */
 
-include 'Config'
+include 'Common'
 include 'Database'
 
 serviceMetaAttribute {

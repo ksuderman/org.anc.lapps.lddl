@@ -4,7 +4,7 @@
  * as this script.
  */
 
-include 'Config'
+include 'Common'
 include 'Database'
 
 serviceInterfaceDefinition {
@@ -20,7 +20,6 @@ serviceInterfaceDefinition {
 	domain DOMAIN
 	type SERVICE
 	protocol 'SOAP_RPC_ENCODED'
-	//url "${Servers.GRID}/service_manager/wsdl/anc:STANFORD_SPLITTER"
 	url 'file:WebService.wsdl'
 }
 

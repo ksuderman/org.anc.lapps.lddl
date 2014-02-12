@@ -1,6 +1,7 @@
 /*
  * Functions used to register web services and datasources.
  */
+include 'ANC' // For the copyright notice.
 
 void register_datasources(list) {
     list.each {
