@@ -1,0 +1,15 @@
+/* Server on the LAPPS grid. */
+servers = [:]
+servers.localhost = 'http://localhost:8080'
+servers.vassar = 'http://grid.anc.org:8080'
+
+servers.default = servers.localhost
+
+if (args != null) {
+    def arg = args[0]
+    if (arg && servers[arg]) {
+        servers.default = servers[arg]
+        println "Default server is ${servers.default}"
+    }
+}
+

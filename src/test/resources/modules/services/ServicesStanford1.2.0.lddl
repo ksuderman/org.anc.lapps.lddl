@@ -1,0 +1,25 @@
+include 'Servers'
+include 'Database'
+include 'Common'
+include 'Functions'
+
+def VERSION="1.2.0"
+def ROOT="${servers.default}/StanfordServices/${VERSION}/services"
+
+[
+    [id:"stanford.tokenizer_${VERSION}", name:'Tokenizer', desc:'Stanford Tokenizer', license:'GPL'],
+    [id:"stanford.tagger_${VERSION}", name:'Tagger', desc:'Stanford POS Tagger', license:'GPL'],
+    [id:"stanford.ner_${VERSION}", name:'NamedEntityRecognizer', desc:'Stanford NER', license:'GPL']
+].each {
+    it.url = "${ROOT}/SA${it.name}"
+    it.name = "Stanford ${it.name} v${VERSION}"
+    register_service(it)
+}
+
+[
+    [id:"stanford.splitter_${VERSION}", name:'SentenceSplitter', desc:'Stanford SentenceSplitter', license:'GPL'],
+].each {
+    it.url = "${ROOT}/${it.name}"
+    it.name = "Stanford ${it.name} v${VERSION}"
+    register_service(it)
+}
