@@ -16,7 +16,7 @@ dist
 .DS_Store
 
 # Custom #
-Makefile
+#Makefile
 install.sh
 data.groovy
 
