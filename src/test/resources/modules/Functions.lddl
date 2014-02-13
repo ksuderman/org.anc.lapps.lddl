@@ -17,6 +17,7 @@ register_datasource = { source ->
         protocol 'SOAP_RPC_ENCODED'
         domain DOMAIN
         type DATASOURCE
+        lang 'en-US'
         copyright COPYRIGHT
         resource MASC_ID
         license APACHE

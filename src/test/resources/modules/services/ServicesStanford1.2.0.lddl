@@ -4,8 +4,6 @@ include 'Database'
 include 'Common'
 include 'Functions'
 
-println "Included everything."
-
 def VERSION="1.2.1-SNAPSHOT"
 def ROOT="${servers.default}/StanfordServices/${VERSION}/services"
 
@@ -15,7 +13,6 @@ def ROOT="${servers.default}/StanfordServices/${VERSION}/services"
     [id:"stanford.tagger_${VERSION}", name:'Tagger', desc:'Stanford POS Tagger', license:'GPL'],
     [id:"stanford.ner_${VERSION}", name:'NamedEntityRecognizer', desc:'Stanford NER', license:'GPL']
 ].each {
-	println "Registering ${it.name}"
     it.url = "${ROOT}/SA${it.name}"
     it.name = "Stanford ${it.name} v${VERSION}"
     register_service(it)
@@ -25,7 +22,6 @@ def ROOT="${servers.default}/StanfordServices/${VERSION}/services"
 [
     [id:"stanford.splitter_${VERSION}", name:'SentenceSplitter', desc:'Stanford SentenceSplitter', license:'GPL'],
 ].each {
-	println "Registering ${it.name}"
     it.url = "${ROOT}/${it.name}"
     it.name = "Stanford ${it.name} v${VERSION}"
     register_service(it)
