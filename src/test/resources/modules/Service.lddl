@@ -5,20 +5,6 @@
 include 'Common'
 include 'Database'
 
-serviceMetaAttribute {
-	id 'service.meta.lang'
-	name 'Service language'
-	domain DOMAIN
-	description 'The language(s) the service is able to process.'
-}
-
-serviceMetaAttribute {
-	id 'service.meta.type'
-	name 'Service type'
-	domain DOMAIN
-	description 'The type of service (POS tagger, sentence splitter, etc.)'
-}
-
 serviceType {
 	id DATASOURCE
 	name 'LAPPS Datasource'
@@ -33,12 +19,29 @@ serviceType {
 	description 'LAPPS web services.'
 }
 
+serviceMetaAttribute {
+	id 'service.meta.lang'
+	name 'Service language'
+	domain DOMAIN
+	type SERVICE
+	description 'The language(s) the service is able to process.'
+}
 
+serviceMetaAttribute {
+	id 'service.meta.type'
+	name 'Service type'
+	domain DOMAIN
+	type SERVICE
+	description 'The type of service (POS tagger, sentence splitter, etc.)'
+}
+
+/**
 sql """
 insert into servicetype_servicemetaattribute
 (servicetype_domainid, servicetype_servicetypeid, metaattributes_attributeid, metaattributes_domainid)
 values ('${DOMAIN}', 'service.type.processor', 'service.meta.lang', '${DOMAIN}')
 """
+**/
 
 news 'LAPPS service types and attributes have been registered.'
 

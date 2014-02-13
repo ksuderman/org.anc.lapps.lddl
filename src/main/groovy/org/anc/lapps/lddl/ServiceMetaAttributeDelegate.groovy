@@ -13,7 +13,7 @@ class ServiceMetaAttributeDelegate extends AbstractTableDelegate {
     @Override
     Set fieldNames() {
         if (namesCache == null) {
-            namesCache = ['id','name', 'domain','description'] as HashSet
+            namesCache = ['id','name', 'type', 'domain','description'] as HashSet
         }
         return namesCache
     }
@@ -39,5 +39,19 @@ class ServiceMetaAttributeDelegate extends AbstractTableDelegate {
         }
         valueCache = buffer.toString()
         return valueCache
+    }
+
+    @Override
+    String[] asSql() {
+        def statements = super.asSql() as ArrayList
+        def columns = "servicetype_domainid, servicetype_servicetypeid, metaattributes_attributeid, metaattributes_domainid"
+        StringBuilder buffer = new StringBuilder()
+        buffer << fields.domain
+        [fields.type, fields.name, fields.domain].each {
+            buffer << ", '${it}'"
+        }
+        def statement = "insert into servicetype_servicemetaattribute (${columns}) values (${buffer.toString()})"
+        statements.append(statment)
+        return statements as String[]
     }
 }
