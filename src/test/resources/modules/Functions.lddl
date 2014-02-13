@@ -1,6 +1,7 @@
 /*
  * Functions used to register web services and datasources.
  */
+include 'ANC' // For the copyright notice.
 
 void register_datasources(list) {
     list.each {
@@ -16,6 +17,7 @@ register_datasource = { source ->
         protocol 'SOAP_RPC_ENCODED'
         domain DOMAIN
         type DATASOURCE
+        lang 'en-US'
         copyright COPYRIGHT
         resource MASC_ID
         license APACHE

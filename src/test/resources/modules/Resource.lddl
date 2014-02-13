@@ -1,6 +1,7 @@
-include 'Config'
+include 'Common'
 include 'Domains'
 include 'Database'
+include 'ANC'
 
 resourceMetaAttribute {
 	id 'resource.meta.lang'
@@ -51,6 +52,7 @@ resourceType {
     description "A type for resources that do not require a type."
 }
 
+//  TODO This should go in an ANC specific config file.
 resource {
     id MASC_ID
     copyright COPYRIGHT

@@ -2,7 +2,7 @@
  * The domain for LAPPS NLP applications.
  */
 
-include 'Config'
+include 'Common'
 include 'Database'
 
 domain {
