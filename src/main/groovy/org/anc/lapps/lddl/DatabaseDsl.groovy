@@ -44,15 +44,19 @@ class DatabaseDsl {
         GroovyShell shell = new GroovyShell(loader, bindings, configuration)
 
         Script script = shell.parse(scriptString)
+        def params = [:]
         if (args != null && args.size() > 0) {
-            script.binding.setVariable("args", args)
+            args.each { arg ->
+                String[] parts = arg.split('=')
+                String name = parts[0].startsWith('-') ? parts[0][1..-1] : parts[0]
+                String value = parts.length > 1 ? parts[1] : Boolean.true
+                params[name] = value
+            }
         }
-        else {
-            script.binding.setVariable('args', [])
-        }
+        script.binding.setVariable("args", params)
 
-        // Running the script will generate a list of SQL statements
-        // needed to initialize the database.
+        // Running the script will generate the list of SQL statements
+        // needed to initialize the langrid database.
         script.metaClass = getMetaClass(script.class,shell)
         script.run()
 
