@@ -11,6 +11,27 @@
 include 'Config'
 include 'Database'
 
-sql new File('create_indices.sql').text
-sql new File('create_storedproc.sql').text
+
+/**
+ *  You may running in the parent directory.
+ *  Then it try to find this file if it located in the subdirectory.
+ **/
+sqlIndices='create_indices.sql'
+sqlStoredproc='create_storedproc.sql'
+
+import static groovy.io.FileType.FILES
+// search files under current directory.
+new File('.').eachFileRecurse(FILES) {
+    if(it.name.endsWith(sqlIndices)) {
+        sqlIndices = it.getAbsolutePath()
+    }
+    if(it.name.endsWith(sqlStoredproc)) {
+            sqlStoredproc = it.getAbsolutePath()
+    }
+}
+sql new File(sqlIndices).text
+sql new File(sqlStoredproc).text
+
+//sql new File('create_indices.sql').text
+//sql new File('create_storedproc.sql').text
 comment "Index and stored procedure have been created."

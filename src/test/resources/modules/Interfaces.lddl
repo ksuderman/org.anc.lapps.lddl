@@ -7,12 +7,24 @@
 include 'Common'
 include 'Database'
 
+def wsdlWebService='WebService.wsdl'
+def wsdlDataSource='Datasource.wsdl'
+
+import static groovy.io.FileType.FILES
+new File('.').eachFileRecurse(FILES) {
+    if(it.name.endsWith(wsdlWebService))
+        wsdlWebService = it.getAbsolutePath()
+
+    if(it.name.endsWith(wsdlDataSource))
+        wsdlDataSource = it.getAbsolutePath()
+}
+
 serviceInterfaceDefinition {
     name 'LAPPS DataSource'
 	domain DOMAIN
 	type DATASOURCE
 	protocol 'SOAP_RPC_ENCODED'
-	url 'file:Datasource.wsdl'
+	url "file:${wsdlDataSource}"
 }
 
 serviceInterfaceDefinition {
@@ -20,7 +32,7 @@ serviceInterfaceDefinition {
 	domain DOMAIN
 	type SERVICE
 	protocol 'SOAP_RPC_ENCODED'
-	url 'file:WebService.wsdl'
+	url "file:${wsdlWebService}"
 }
 
 news 'Added interface definitions for LAPPS web services and data sources.'

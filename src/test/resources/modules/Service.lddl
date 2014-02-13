@@ -33,5 +33,12 @@ serviceType {
 	description 'LAPPS web services.'
 }
 
+
+sql """
+insert into servicetype_servicemetaattribute
+(servicetype_domainid, servicetype_servicetypeid, metaattributes_attributeid, metaattributes_domainid)
+values ('${DOMAIN}', 'service.type.processor', 'service.meta.lang', '${DOMAIN}')
+"""
+
 news 'LAPPS service types and attributes have been registered.'
 
