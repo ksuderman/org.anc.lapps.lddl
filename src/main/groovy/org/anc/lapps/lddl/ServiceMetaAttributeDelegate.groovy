@@ -43,15 +43,15 @@ class ServiceMetaAttributeDelegate extends AbstractTableDelegate {
 
     @Override
     String[] asSql() {
-        def statements = super.asSql() as ArrayList
+        String[] statements = super.asSql()
         def columns = "servicetype_domainid, servicetype_servicetypeid, metaattributes_attributeid, metaattributes_domainid"
         StringBuilder buffer = new StringBuilder()
-        buffer << fields.domain
-        [fields.type, fields.name, fields.domain].each {
+        buffer << "'${fields.domain}'"
+        [fields.type, fields.id, fields.domain].each {
             buffer << ", '${it}'"
         }
-        def statement = "insert into servicetype_servicemetaattribute (${columns}) values (${buffer.toString()})"
-        statements.append(statment)
-        return statements as String[]
+
+        statements += "insert into servicetype_servicemetaattribute (${columns}) values (${buffer.toString()})"
+        return statements
     }
 }

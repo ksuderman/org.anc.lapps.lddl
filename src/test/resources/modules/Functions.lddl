@@ -43,6 +43,7 @@ register_service = { svc ->
         protocol 'SOAP_RPC_ENCODED'
         domain DOMAIN
         type SERVICE
+        lang 'en-US'
         copyright COPYRIGHT
         resource NONE_ID
         license svc.license
