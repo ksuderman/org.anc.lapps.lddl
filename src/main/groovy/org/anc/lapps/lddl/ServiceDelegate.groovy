@@ -168,7 +168,8 @@ class ServiceDelegate extends AbstractTableDelegate {
         // http://en.wikipedia.org/wiki/IETF_language_tag
         if (fields.lang == null)
             fields.lang = "en"
-        [GRID_ID,"service.meta.lang",fields.id,now,now,fields.lang].each {
+        buffer << "'${GRID_ID}'"
+        ["service.meta.lang",fields.id,now,now,fields.lang].each {
             buffer << ",'${it}'"
         }
         stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
