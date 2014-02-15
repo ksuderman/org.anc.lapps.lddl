@@ -1,11 +1,10 @@
 include 'Database'
-include 'Config'
+include 'Common'
 include 'Functions'
 
 def VERSION="1.1.0"
-def VROOT="${Servers.LOCALHOST}/StanfordServices/${VERSION}/services"
-def ROOT="${Servers.LOCALHOST}/StanfordServices/services"
-/*
+def VROOT="${servers.DEFAULT}/StanfordServices/${VERSION}/services"
+def ROOT="${servers.DEFAULT}/StanfordServices/services"
 [
     [id:'stanford.splitter', name:'SentenceSplitter', desc:'Stanford SentenceSplitter', license:'GPL'],
     [id:'stanford.tokenizer', name:'Tokenizer', desc:'Stanford Tokenizer', license:'GPL'],
@@ -15,7 +14,6 @@ def ROOT="${Servers.LOCALHOST}/StanfordServices/services"
     it.name = "Stanford ${it.name} v1.0.0"
     register_service(it)
 }
-*/
 
 [
     [id:"stanford.splitter_${VERSION}", name:'SentenceSplitter', desc:'Stanford SentenceSplitter', license:'GPL'],

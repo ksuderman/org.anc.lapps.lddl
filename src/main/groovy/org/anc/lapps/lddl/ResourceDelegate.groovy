@@ -48,7 +48,7 @@ class ResourceDelegate extends AbstractTableDelegate{
         ['resource.meta.lang,', fields.id, now, now, fields.lang].each {
             values << ", '${it}'"
         }
-        statements += "insert into resourceattribute columns (${columns}) values (${values.toString()})"
+        statements += "insert into resourceattribute (${columns}) values (${values.toString()})"
         return statements
     }
 }

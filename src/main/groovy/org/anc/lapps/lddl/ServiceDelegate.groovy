@@ -172,7 +172,7 @@ class ServiceDelegate extends AbstractTableDelegate {
         ["service.meta.lang",fields.id,now,now,fields.lang].each {
             buffer << ",'${it}'"
         }
-        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
+        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
         sql.execute(stmt.toString())
 
 //        // update servicetype_servicemetaattribute

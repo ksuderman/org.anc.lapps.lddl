@@ -6,10 +6,10 @@ servers.vassar = 'http://grid.anc.org:8080'
 servers.default = servers.localhost
 
 if (args.server) {
-    args.server
     if (servers[args.server]) {
         servers.default = servers[args.server]
     }
 }
+servers.DEFAULT = servers.default
 println "Default server is ${servers.default}"
 

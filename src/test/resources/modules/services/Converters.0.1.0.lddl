@@ -1,9 +1,9 @@
 include "Database"
-include "Config"
+include "Common"
 include "Functions"
 
 def VERSION = "0.1.0"
-def BASE_URL = "${Servers.DEFAULT}/GateConverter/${VERSION}/services/"
+def BASE_URL = "${servers.DEFAULT}/GateConverter/${VERSION}/services/"
 
 [
     [id:"convert.gate2json_${VERSION}", name:"GateToJson v${VERSION}", desc:"GATE to JSON-LD converter ", url:"${BASE_URL}/GateToJson"],

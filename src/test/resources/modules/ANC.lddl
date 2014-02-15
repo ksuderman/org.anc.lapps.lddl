@@ -1,4 +1,47 @@
+include 'Common'
+include 'Database'
 /* Each institution should set their own copyright notice. */
 COPYRIGHT = 'Copyright 2014 American National Corpus'
 
 MASC_ID = 'MASC-3.0.0'
+
+resource {
+    id MASC_ID
+    copyright COPYRIGHT
+    license APACHE
+    description 'MASC 3.0.0'
+    name 'MASC 3.0.0'
+    domain DOMAIN
+    type CORPUS_TYPE
+    lang 'en-US'
+}
+
+resource {
+    id NONE_ID
+    copyright COPYRIGHT
+    license APACHE
+    description 'A resource for services that do not require a resource.'
+    name 'None'
+    domain DOMAIN
+    type NONE_TYPE
+    lang 'en'
+}
+
+/*
+
+resource {
+    id NONE_ID
+    copyright COPYRIGHT
+    license APACHE
+    description 'A resource for services that do not require a resource.'
+    name 'None'
+    domain DOMAIN
+    type NONE_TYPE
+    lang 'en'
+    attributes 'resource.meta.lang':'en-US', 
+    		'resource.meta.size':'500000',
+			'resource.meta.unit':'words'
+}
+
+
+*/

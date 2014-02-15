@@ -1,3 +1,5 @@
-include 'Common'
+include 'Cleanup'
+include 'Setup'
+include 'ANC'
 
 println "Test complete."

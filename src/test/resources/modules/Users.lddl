@@ -1,4 +1,4 @@
-include 'Config'
+include 'Common'
 include 'Database'
 
 /* Register users for each of the ANC nodes. */

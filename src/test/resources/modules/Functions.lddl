@@ -25,6 +25,7 @@ register_datasource = { source ->
         allow 'commercial', 'nonprofit', 'research'
         control 'client', 'server'
         federate true
+        lang 'en-US'
     }
     news "Configured ${source.name}"
 }
@@ -43,7 +44,6 @@ register_service = { svc ->
         protocol 'SOAP_RPC_ENCODED'
         domain DOMAIN
         type SERVICE
-        lang 'en-US'
         copyright COPYRIGHT
         resource NONE_ID
         license svc.license
@@ -51,6 +51,7 @@ register_service = { svc ->
         allow 'commercial', 'nonprofit', 'research'
         control 'client', 'server'
         federate true
+        lang 'en-US'
     }
     news "Configured ${svc.name}"
 }
@@ -70,6 +71,7 @@ register_converter = { converter ->
         allow 'commercial', 'nonprofit', 'research'
         control 'client', 'server'
         federate true
+        lang 'any'
     }
     news "Registered ${converter.name}"
 }
