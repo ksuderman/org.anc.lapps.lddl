@@ -31,9 +31,8 @@ resourceType {
     description "A type for resources that do not require a type."
 }
 
-comment 'Defining resource meta-attributes'
 resourceMetaAttribute {
-	id 'resource.meta.lang'
+	id 'lang'
 	name 'Language'
 	domain DOMAIN
 	description 'The language of the resource.'
