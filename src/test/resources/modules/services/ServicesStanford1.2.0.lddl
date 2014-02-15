@@ -1,11 +1,10 @@
-println "Running ServiceStanford1.2.0.lddl"
 include 'Servers'
 include 'Database'
 include 'Common'
 include 'Functions'
 
 def VERSION="1.2.1-SNAPSHOT"
-def ROOT="${servers.default}/StanfordServices/${VERSION}/services"
+def ROOT="${servers.DEFAULT}/StanfordServices/${VERSION}/services"
 
 // Standalone versions of the Stanford Services have an SA prefix on the class name.
 [

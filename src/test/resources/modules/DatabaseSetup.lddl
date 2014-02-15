@@ -8,7 +8,7 @@
  *    manager to create all the required tables.
  */
 
-include 'Config'
+include 'Common'
 include 'Database'
 
 

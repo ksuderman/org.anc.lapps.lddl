@@ -9,7 +9,7 @@ class ResourceDelegate extends AbstractTableDelegate{
     @Override
     Set fieldNames() {
         if (namesCache == null) {
-            namesCache = ['id','copyright','license','description','name','domain','type'] as HashSet
+            namesCache = ['id','copyright','license','description','name','domain','type', 'lang'] as HashSet
         }
         return namesCache
     }
@@ -38,4 +38,17 @@ class ResourceDelegate extends AbstractTableDelegate{
         return valuesCache
     }
 
+    @Override
+    String[] asSql() {
+        String[] statements = super.asSql()
+        String columns = "gridid,name,resourceid,createddatetime,updateddatetime,value"
+        def now = timestamp()
+        StringBuilder values = new StringBuilder()
+        values << "'${GRID_ID}'"
+        ['resource.meta.lang,', fields.id, now, now, fields.lang].each {
+            values << ", '${it}'"
+        }
+        statements += "insert into resourceattribute (${columns}) values (${values.toString()})"
+        return statements
+    }
 }

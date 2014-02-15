@@ -1,5 +1,5 @@
 include 'Database'
-include 'Config'
+include 'Common'
 include 'Functions'
 
 def VERSION='1.2.0-SNAPSHOT'

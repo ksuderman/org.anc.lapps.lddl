@@ -9,13 +9,34 @@ import org.codehaus.groovy.control.customizers.ImportCustomizer
  * @author Keith Suderman
  */
 class DatabaseDsl {
+    // The directory containing the script being run. Used to resolve
+    // included scripts.
     File parentDir
+
+    // Used to obtain infomation about the database we are
+    // connecting to.
     DatabaseDelegate databaseInfo = new DatabaseDelegate()
+
+    // The list of generated SQL statements that will be
+    // executed.
     List statements = []
+
+    // The set of LDDL scripts that have been included.
     Set<String> included = new HashSet<String>()
+
+    // Used to execute the SQL statements.
     Sql sql
+
+    // The bindings object used by all scripts.
     Binding bindings = new Binding()
+
+    // If true the SQL statements will be printed instead of
+    // being executed.
     static boolean debug = false
+
+    // If true the SQL statements will be printed before they
+    // are executed.
+    static boolean verbose = false
 
     void run(File file, args) {
         parentDir = file.parentFile
@@ -49,8 +70,13 @@ class DatabaseDsl {
             args.each { arg ->
                 String[] parts = arg.split('=')
                 String name = parts[0].startsWith('-') ? parts[0][1..-1] : parts[0]
-                String value = parts.length > 1 ? parts[1] : Boolean.true
-                params[name] = value
+                String value = parts.length > 1 ? parts[1] : Boolean.TRUE
+                if (name == 'verbose') {
+                    verbose = true
+                }
+                else {
+                    params[name] = value
+                }
             }
         }
         script.binding.setVariable("args", params)
@@ -81,7 +107,12 @@ class DatabaseDsl {
         }
         else {
             statements.each { stmt ->
-//                println "${stmt.class.name} : ${stmt.asSql()}"
+                if (verbose) {
+                    stmt.asSql().each {
+                        println it
+                    }
+                    println()
+                }
                 stmt.execute(sql)
             }
         }
@@ -259,7 +290,6 @@ java -jar lddl-x.y.z.jar /path/to/script [arg0, arg1, ..., argn]"
         }
 
         if (args.size() > 1) {
-            println args
             if (args[0] == "-debug") {
                 println "Enabling debug mode."
                 args = args[1..-1]
