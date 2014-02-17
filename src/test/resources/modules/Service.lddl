@@ -28,6 +28,14 @@ serviceMetaAttribute {
 }
 
 serviceMetaAttribute {
+	id 'datasource.meta.lang'
+	name 'DataSouce language'
+	domain DOMAIN
+	type DATASOURCE
+	description 'The language of documents produced by the datasource.'
+}
+
+serviceMetaAttribute {
 	id 'service.meta.type'
 	name 'Service type'
 	domain DOMAIN
