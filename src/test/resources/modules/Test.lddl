@@ -1,5 +1,9 @@
-include 'Cleanup'
-include 'Setup'
-include 'ANC'
 
-println "Test complete."
+
+if (args.module == null) {
+	println "No module specified."
+	args.each { println "\t${it}" }
+	System.exit(1)
+}
+
+include args.module

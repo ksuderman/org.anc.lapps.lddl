@@ -289,8 +289,15 @@ java -jar lddl-x.y.z.jar /path/to/script [arg0, arg1, ..., argn]"
             return
         }
 
-        if (args.size() > 1) {
-            if (args[0] == "-debug") {
+        if (args.size() >= 1) {
+            if (args[0] == "-version") {
+                println """
+LDDL Version ${Version.version}
+Copyright 2014 American National Corpus
+"""
+                return
+            }
+            else if (args[0] == "-debug") {
                 println "Enabling debug mode."
                 args = args[1..-1]
                 debug = true

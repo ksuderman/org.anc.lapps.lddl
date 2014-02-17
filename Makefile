@@ -32,7 +32,7 @@ install:
 	cat src/main/resources/lddl | sed -e 's|__VERSION__|'$(version)'|' > $(BIN)
 	if [ -e /Volumes/share ] ; then \
 		cp $(HOME)/bin/lddl /Volumes/share ; \
-		cp target/LDDL-$(version).jar /Volumes/share ; \
+		cp target/lddl-$(version).jar /Volumes/share ; \
 	fi
 
 scripts:
@@ -44,11 +44,11 @@ version:
 zip:
 	$(eval version := $(shell cat VERSION))
 	$(eval zipfile := LDDL-$(version).zip)
-	$(eval jarfile := LDDL-$(version).jar)
+	$(eval jarfile := lddl-$(version).jar)
 	if [ -e $(zipfile) ] ; then rm $(zipfile) ; fi
 	if [ -e $(jarfile) ] ; then rm $(jarfile) ; fi
 	cp target/$(jarfile) .
-	zip $(zipfile) $(jarfile) LICENSE README.md
+	zip $(zipfile) $(jarfile) LICENSE VERSION README.md
 	cp $(zipfile) LDDL-latest.zip
 	rm $(jarfile)
 	anc-put $(zipfile) /home/www/anc/downloads

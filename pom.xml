@@ -15,7 +15,7 @@
         <version>1.0.0</version>
     </parent>
     <build>
-        <finalName>LDDL-${project.version}</finalName>
+        <finalName>lddl-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -41,6 +41,24 @@
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.anc.maven.plugins</groupId>
+                <artifactId>anc-maven-plugin</artifactId>
+                <version>1.0.4</version>
+                <executions>
+                    <execution>
+                        <id>generate-version</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>version</goal>
+                            <goal>version-class</goal>
+                        </goals>
+                        <configuration>
+                            <package>org.anc.lapps.lddl</package>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

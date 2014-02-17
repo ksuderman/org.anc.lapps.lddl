@@ -13,7 +13,7 @@ resource {
     name 'MASC 3.0.0'
     domain DOMAIN
     type CORPUS_TYPE
-    lang 'en-US'
+    //lang 'en-US'
 }
 
 resource {
@@ -24,7 +24,7 @@ resource {
     name 'None'
     domain DOMAIN
     type NONE_TYPE
-    lang 'en'
+    //lang 'en'
 }
 
 /*
