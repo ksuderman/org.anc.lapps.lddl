@@ -25,7 +25,7 @@ register_datasource = { source ->
         allow 'commercial', 'nonprofit', 'research'
         control 'client', 'server'
 		federate true
-        attributes 'resource.meta.lang':'en-US'
+        attributes 'service.meta.lang':'en-US'
     }
     news "Configured ${source.name}"
 }
@@ -71,7 +71,7 @@ register_converter = { converter ->
         allow 'commercial', 'nonprofit', 'research'
         control 'client', 'server'
         federate true
-        attributes ['service.meta.lang', 'any']
+        attributes 'service.meta.lang':'any'
     }
     news "Registered ${converter.name}"
 }

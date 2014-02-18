@@ -29,7 +29,7 @@ serviceType {
 	name 'LAPPS Datasource'
 	domain DOMAIN
 	description 'Services that provide data to other services.'
-	attributes LANG
+	attributes LANG, TYPE
 }
 
 serviceType {
@@ -37,7 +37,7 @@ serviceType {
 	name 'LAPPS Web Service'
 	domain DOMAIN
 	description 'LAPPS web services.'
-	attributes LANG
+	attributes LANG, TYPE
 }
 
 

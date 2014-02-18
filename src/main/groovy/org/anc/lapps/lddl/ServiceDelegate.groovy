@@ -97,7 +97,6 @@ class ServiceDelegate extends AbstractTableDelegate {
         // update serviceattribute
         fields.attributes.each { name,value ->
             buffer.setLength(0)
-            // http://en.wikipedia.org/wiki/IETF_language_tag
             [fields.domain,name,fields.id,now,now,value].each {
                 buffer << ",'${it}'"
             }
@@ -177,7 +176,7 @@ class ServiceDelegate extends AbstractTableDelegate {
         fields.attributes.each { name,value ->
             buffer.setLength(0)
             // http://en.wikipedia.org/wiki/IETF_language_tag
-            [fields.domain,name,fields.id,now,now,value].each {
+            [GRID_ID,name,fields.id,now,now,value].each {
                 buffer << ",'${it}'"
             }
             stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"

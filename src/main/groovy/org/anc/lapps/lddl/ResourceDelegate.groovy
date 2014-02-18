@@ -9,7 +9,7 @@ class ResourceDelegate extends AbstractTableDelegate{
     @Override
     Set fieldNames() {
         if (namesCache == null) {
-            namesCache = ['id','copyright','license','description','name','domain','type'] as HashSet
+            namesCache = ['id','copyright','license','description','name','domain','type','attributes'] as HashSet
         }
         return namesCache
     }
@@ -51,7 +51,7 @@ class ResourceDelegate extends AbstractTableDelegate{
             [name,fields.id,now,now,value].each {
                 buffer << ",'${it}'"
             }
-            statements += "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring()})"
+            statements += "insert into resourceattribute (${columns}) values (${buffer.toString()})"
         }
         return statements
     }

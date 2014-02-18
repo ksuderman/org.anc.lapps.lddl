@@ -44,7 +44,7 @@ class ResourceTypeDelegate extends AbstractTableDelegate {
         def columns = "resourcetype_domainid,resourcetype_resourcetypeid,metaattributes_attributeid,metaattributes_domainid"
         StringBuilder buffer = new StringBuilder()
         fields.attributes.each { att ->
-            buffer.setLength()
+            buffer.setLength(0)
             buffer << "'${fields.domain}'"
             [fields.id, att, fields.domain].each {
                 buffer << ", '${it}'"

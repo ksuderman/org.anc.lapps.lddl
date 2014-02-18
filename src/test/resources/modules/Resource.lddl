@@ -35,7 +35,7 @@ resourceType {
 	name 'Corpus'
 	domain DOMAIN
 	description 'A resource that contains a single corpus.'
-	attributes LANG
+	attributes LANG, SIZE, UNIT
 }
 
 resourceType {
@@ -43,7 +43,7 @@ resourceType {
 	name 'Corpora'
 	domain DOMAIN
 	description 'A resource that contains multiple corpora.'
-	attributes LANG
+	attributes LANG, SIZE, UNIT
 }
 
 resourceType {
@@ -51,7 +51,7 @@ resourceType {
     name 'Dictionary'
     domain DOMAIN
     description 'Dictionary'
-	attributes LANG
+	attributes LANG, SIZE, UNIT
 }
 
 resourceType {
@@ -59,7 +59,7 @@ resourceType {
     name 'The NULL resource type'
     domain DOMAIN
     description "A type for resources that do not require a type."
-    attributes LANG
+    attributes LANG, SIZE, UNIT
 }
 
 news 'LAPPS resources have been registered.'
