@@ -6,7 +6,7 @@
 
     <groupId>org.anc.lapps</groupId>
     <artifactId>lddl</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0-SNAPSHOT</version>
     <name>LAPPS Database Description Language</name>
     <description>A Groovy DSL for automating LAPPS database operations.</description>
     <parent>
