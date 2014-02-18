@@ -42,17 +42,17 @@ class ResourceMetaAttributeDelegate extends AbstractTableDelegate {
         return valueCache
     }
 
-    @Override
-    String[] asSql() {
-        String[] statements = super.asSql()
-        def columns = "resourcetype_domainid,resourcetype_resourcetypeid,metaattributes_attributeid,metaattributes_domainid"
-        StringBuilder buffer = new StringBuilder()
-        buffer << "'${fields.domain}'"
-        [fields.type, fields.id, fields.domain].each {
-            buffer << ", '${it}'"
-        }
-
-        statements += "insert into resourcetype_resourcemetaattribute (${columns}) values (${buffer.toString()})"
-        return statements
-    }
+//    @Override
+//    String[] asSql() {
+//        String[] statements = super.asSql()
+//        def columns = "resourcetype_domainid,resourcetype_resourcetypeid,metaattributes_attributeid,metaattributes_domainid"
+//        StringBuilder buffer = new StringBuilder()
+//        buffer << "'${fields.domain}'"
+//        [fields.type, fields.id, fields.domain].each {
+//            buffer << ", '${it}'"
+//        }
+//
+//        statements += "insert into resourcetype_resourcemetaattribute (${columns}) values (${buffer.toString()})"
+//        return statements
+//    }
 }

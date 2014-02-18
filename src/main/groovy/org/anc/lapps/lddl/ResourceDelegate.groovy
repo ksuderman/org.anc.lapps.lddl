@@ -38,17 +38,21 @@ class ResourceDelegate extends AbstractTableDelegate{
         return valuesCache
     }
 
-//    @Override
-//    String[] asSql() {
-//        String[] statements = super.asSql()
-//        String columns = "gridid,name,resourceid,createddatetime,updateddatetime,value"
-//        def now = timestamp()
-//        StringBuilder values = new StringBuilder()
-//        values << "'${GRID_ID}'"
-//        ['resource.meta.lang,', fields.id, now, now, fields.lang].each {
-//            values << ", '${it}'"
-//        }
-//        statements += "insert into resourceattribute (${columns}) values (${values.toString()})"
-//        return statements
-//    }
+    @Override
+    String[] asSql() {
+        String[] statements = super.asSql()
+        String columns = "gridid,name,resourceid,createddatetime,updateddatetime,value"
+        def now = timestamp()
+        StringBuilder buffer = new StringBuilder()
+        fields.attributes.each { name,value ->
+            buffer.setLength(0)
+            // http://en.wikipedia.org/wiki/IETF_language_tag
+            buffer << "'${GRID_ID}'"
+            [name,fields.id,now,now,value].each {
+                buffer << ",'${it}'"
+            }
+            statements += "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring()})"
+        }
+        return statements
+    }
 }
