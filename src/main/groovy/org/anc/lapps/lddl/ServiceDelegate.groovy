@@ -22,7 +22,7 @@ class ServiceDelegate extends AbstractTableDelegate {
     @Override
     Set fieldNames() {
         if (namesCache == null) {
-            namesCache = ['id','name', 'lang', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet
+            namesCache = ['id','name', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type','attributes'] as HashSet
         }
         return namesCache
 //          return ['id','name', 'lang', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet
@@ -95,14 +95,13 @@ class ServiceDelegate extends AbstractTableDelegate {
         stmts << "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${buffer.toString()})"
 
         // update serviceattribute
-        buffer.setLength(0)
-        // http://en.wikipedia.org/wiki/IETF_language_tag
-        if (fields.lang == null)
-            fields.lang = "en"
-        [fields.domain,"lang",fields.id,now,now,fields.lang].each {
-            buffer << ",'${it}'"
+        fields.attributes.each { name,value ->
+            buffer.setLength(0)
+            [fields.domain,name,fields.id,now,now,value].each {
+                buffer << ",'${it}'"
+            }
+            stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
         }
-        stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
         return stmts as String[]
     }
 
@@ -164,16 +163,25 @@ class ServiceDelegate extends AbstractTableDelegate {
 
 
         // update serviceattribute
-        buffer.setLength(0)
-        // http://en.wikipedia.org/wiki/IETF_language_tag
-        if (fields.lang == null)
-            fields.lang = "en"
-        buffer << "'${GRID_ID}'"
-        ["service.meta.lang",fields.id,now,now,fields.lang].each {
-            buffer << ",'${it}'"
+//        buffer.setLength(0)
+//        // http://en.wikipedia.org/wiki/IETF_language_tag
+//        if (fields.lang == null)
+//            fields.lang = "en"
+//        buffer << "'${GRID_ID}'"
+//        ["service.meta.lang",fields.id,now,now,fields.lang].each {
+//            buffer << ",'${it}'"
+//        }
+//        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
+//        sql.execute(stmt.toString())
+        fields.attributes.each { name,value ->
+            buffer.setLength(0)
+            // http://en.wikipedia.org/wiki/IETF_language_tag
+            [GRID_ID,name,fields.id,now,now,value].each {
+                buffer << ",'${it}'"
+            }
+            stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
+            sql.execute(stmt.toString())
         }
-        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
-        sql.execute(stmt.toString())
 
 //        // update servicetype_servicemetaattribute
 //        buffer.setLength(0)

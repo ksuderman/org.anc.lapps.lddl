@@ -5,22 +5,11 @@
 include 'Common'
 include 'Database'
 
-serviceType {
-	id DATASOURCE
-	name 'LAPPS Datasource'
-	domain DOMAIN
-	description 'Services that provide data to other services.'
-}
-
-serviceType {
-	id SERVICE
-	name 'LAPPS Web Service'
-	domain DOMAIN
-	description 'LAPPS web services.'
-}
+def LANG='service.meta.lang'
+def TYPE='service.meta.type'
 
 serviceMetaAttribute {
-	id 'service.meta.lang'
+	id LANG
 	name 'Service language'
 	domain DOMAIN
 	type SERVICE
@@ -28,20 +17,29 @@ serviceMetaAttribute {
 }
 
 serviceMetaAttribute {
-	id 'datasource.meta.lang'
-	name 'DataSouce language'
-	domain DOMAIN
-	type DATASOURCE
-	description 'The language of documents produced by the datasource.'
-}
-
-serviceMetaAttribute {
-	id 'service.meta.type'
+	id TYPE
 	name 'Service type'
 	domain DOMAIN
 	type SERVICE
 	description 'The type of service (POS tagger, sentence splitter, etc.)'
 }
+
+serviceType {
+	id DATASOURCE
+	name 'LAPPS Datasource'
+	domain DOMAIN
+	description 'Services that provide data to other services.'
+	attributes LANG, TYPE
+}
+
+serviceType {
+	id SERVICE
+	name 'LAPPS Web Service'
+	domain DOMAIN
+	description 'LAPPS web services.'
+	attributes LANG, TYPE
+}
+
 
 /**
 sql """
