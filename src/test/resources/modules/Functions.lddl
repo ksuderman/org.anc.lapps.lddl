@@ -1,8 +1,6 @@
 /*
  * Functions used to register web services and datasources.
  */
-//include 'ANC' // For the copyright notice.
-def COPYRIGHT = 'Copyright 2014 American National Corpus'
 
 void register_datasources(list) {
     list.each {

@@ -31,3 +31,4 @@ NONE_ID = 'resource.id.none'
 /* License types. This list is by no means exhaustive. */
 APACHE = 'Apache 2.0'
 GPL = 'GPL'
+

@@ -11,6 +11,8 @@ else {
 	include 'DatabaseSetup'
 }
 
+COPYRIGHT = 'Copyright 2014 American National Corpus'
+
 include 'Setup'
 include 'ANC'
 include 'Services'

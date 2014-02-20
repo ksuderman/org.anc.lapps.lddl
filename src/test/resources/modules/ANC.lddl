@@ -1,7 +1,5 @@
 include 'Common'
 include 'Database'
-/* Each institution should set their own copyright notice. */
-COPYRIGHT = 'Copyright 2014 American National Corpus'
 
 MASC_ID = 'MASC-3.0.0'
 
@@ -13,7 +11,8 @@ resource {
     name 'MASC 3.0.0'
     domain DOMAIN
     type CORPUS_TYPE
-    attributes 'resource.meta.lang':'en-US' //, 'resource.meta.size':'500000', 'resource.meta.unit':'words'
+    //lang 'en-US'
+    attributes 'resource.meta.lang':'en-US'
 }
 
 resource {
@@ -24,7 +23,7 @@ resource {
     name 'None'
     domain DOMAIN
     type NONE_TYPE
-    attributes 'resource.meta.lang':'none'    
+    attributes 'resource.meta.lang':'en-US'
 }
 
 /*
@@ -38,9 +37,11 @@ resource {
     domain DOMAIN
     type NONE_TYPE
     lang 'en'
-    attributes 'resource.meta.lang':'en-US', 
-    		'resource.meta.size':'500000',
-			'resource.meta.unit':'words'
+    attributes {
+    	lang 'en-US'
+		size '500000'
+		unit 'words'
+	}
 }
 
 
