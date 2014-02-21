@@ -6,6 +6,7 @@ package org.anc.lapps.lddl
 class ResourceDelegate extends AbstractTableDelegate{
     String valuesCache
 
+    
     @Override
     Set fieldNames() {
         if (namesCache == null) {

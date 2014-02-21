@@ -4,16 +4,20 @@
  */
 
 include 'Servers'
+
 include 'services/Datasources'
-include 'services/Datasources.1.3.0'
+include 'services/Datasources1.3.0'
 //include 'Converters'
-include 'services/Converters.0.2.0'
-include 'services/ServicesGate'
-include 'services/ServicesGate1.2.0'
+include 'services/Converters0.2.0'
+include 'services/Converters0.3.0'
+include 'services/Gate'
+include 'services/Gate1.2.0'
+include 'services/Gate1.3.0'
 include 'services/GateApplications1.2.0'
-include 'services/ServicesOpenNLP'
-include 'services/ServicesStanford'
-include 'services/ServicesStanford1.2.0'
+include 'services/OpenNLP'
+include 'services/Stanford'
+include 'services/Stanford1.2.0'
+include 'services/Stanford1.3.0'
 include 'Users'
 
 news 'The ANC LAPPS services have been configured via LDDL'

@@ -1,5 +1,5 @@
 
-
+/*
 if (args.module == null) {
 	println "No module specified."
 	args.each { println "\t${it}" }
@@ -7,3 +7,10 @@ if (args.module == null) {
 }
 
 include args.module
+*/
+
+COPYRIGHT = "Copyright 2014 American National Corpus"
+
+args.each { name,value ->
+	include name
+}
