@@ -1,0 +1,7 @@
+include 'Servers'
+
+COPYRIGHT = "Copyright 2014 American National Corpus"
+
+include 'services/Converters0.3.0'
+include 'services/ServicesGate1.3.0'
+include 'services/ServicesStanford1.3.0'
