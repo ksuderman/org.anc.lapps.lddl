@@ -5,7 +5,7 @@
  * violations.
  */
 
-include 'Config'
+include 'Common'
 include 'Database'
 
 data = [
@@ -17,6 +17,7 @@ data = [
     [table:'servicetype_servicemetaattribute', column:'servicetype_domainid', value:DOMAIN],
     [table:'servicemetaattribute', column:'domainid', value:DOMAIN],
     [table:'servicetype', column:'domainid', value:DOMAIN],
+    [table:'resourceattribute', column:'gridid', value:GRID_ID],
     [table:'resourcetype_resourcemetaattribute', column:'resourcetype_domainid', value:DOMAIN],
     [table:'resourcemetaattribute', column:'domainid', value:DOMAIN],
     [table:'resourcetype', column:'domainid', value:DOMAIN],

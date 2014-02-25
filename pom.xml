@@ -6,8 +6,8 @@
 
     <groupId>org.anc.lapps</groupId>
     <artifactId>lddl</artifactId>
-    <version>1.1.0</version>
-    <name>LAPPS Database Description Language</name>
+    <version>1.3.0</version>
+    <name>LAPPS Database Definition Language</name>
     <description>A Groovy DSL for automating LAPPS database operations.</description>
     <parent>
         <groupId>org.anc.maven</groupId>
@@ -15,7 +15,7 @@
         <version>1.0.0</version>
     </parent>
     <build>
-        <finalName>LDDL-${project.version}</finalName>
+        <finalName>lddl-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -42,14 +42,34 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.anc.maven.plugins</groupId>
+                <artifactId>anc-maven-plugin</artifactId>
+                <version>1.0.4</version>
+                <executions>
+                    <execution>
+                        <id>generate-version</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>version</goal>
+                            <goal>version-class</goal>
+                        </goals>
+                        <configuration>
+                            <package>org.anc.lapps.lddl</package>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
+        <!--
         <dependency>
             <groupId>org.anc.lapps</groupId>
             <artifactId>serialization</artifactId>
-            <version>0.10.0</version>
+            <version>0.11.0</version>
         </dependency>
+        -->
         <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>

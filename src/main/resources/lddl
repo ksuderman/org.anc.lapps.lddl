@@ -9,11 +9,4 @@ MEMSIZE=4G
 VERSION=__VERSION__
 JAR=$HOME/bin/lddl-$VERSION.jar
 
-if [ "$1" = '-version' ] ; then
-    echo "LDDL version $VERSION"
-    echo "Copyright 2013 American National Corpus"
-    echo
-    exit
-fi
-
 java -jar $JAR $@

@@ -9,7 +9,7 @@ class ResourceTypeDelegate extends AbstractTableDelegate {
     @Override
     Set fieldNames() {
         if (namesCache == null) {
-            namesCache = ['id','name','domain','description'] as HashSet
+            namesCache = ['id','name','domain','description','attributes'] as HashSet
         }
         return namesCache
     }
@@ -38,4 +38,20 @@ class ResourceTypeDelegate extends AbstractTableDelegate {
         return valueCache
     }
 
+    @Override
+    String[] asSql() {
+        String[] statements = super.asSql()
+        def columns = "resourcetype_domainid,resourcetype_resourcetypeid,metaattributes_attributeid,metaattributes_domainid"
+        StringBuilder buffer = new StringBuilder()
+        fields.attributes.each { att ->
+            buffer.setLength(0)
+            buffer << "'${fields.domain}'"
+            [fields.id, att, fields.domain].each {
+                buffer << ", '${it}'"
+            }
+
+            statements += "insert into resourcetype_resourcemetaattribute (${columns}) values (${buffer.toString()})"
+        }
+        return statements
+    }
 }

@@ -2,20 +2,25 @@
  * Service meta-attributes and types.
  */
 
-include 'Config'
+include 'Common'
 include 'Database'
 
+def LANG='service.meta.lang'
+def TYPE='service.meta.type'
+
 serviceMetaAttribute {
-	id 'service.meta.lang'
+	id LANG
 	name 'Service language'
 	domain DOMAIN
+	type SERVICE
 	description 'The language(s) the service is able to process.'
 }
 
 serviceMetaAttribute {
-	id 'service.meta.type'
+	id TYPE
 	name 'Service type'
 	domain DOMAIN
+	type SERVICE
 	description 'The type of service (POS tagger, sentence splitter, etc.)'
 }
 
@@ -24,6 +29,7 @@ serviceType {
 	name 'LAPPS Datasource'
 	domain DOMAIN
 	description 'Services that provide data to other services.'
+	attributes LANG, TYPE
 }
 
 serviceType {
@@ -31,14 +37,17 @@ serviceType {
 	name 'LAPPS Web Service'
 	domain DOMAIN
 	description 'LAPPS web services.'
+	attributes LANG, TYPE
 }
 
 
+/**
 sql """
 insert into servicetype_servicemetaattribute
 (servicetype_domainid, servicetype_servicetypeid, metaattributes_attributeid, metaattributes_domainid)
 values ('${DOMAIN}', 'service.type.processor', 'service.meta.lang', '${DOMAIN}')
 """
+**/
 
 news 'LAPPS service types and attributes have been registered.'
 

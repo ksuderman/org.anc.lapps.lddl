@@ -1,8 +1,8 @@
 include 'Database'
-include 'Config'
+include 'Common'
 include 'Functions'
 
-ROOT="${Servers.DEFAULT}/OpenNLPServices/services"
+ROOT="${servers.DEFAULT}/OpenNLPServices/services"
 [
     [id:'opennlp.splitter', name:'OpenNLP SentenceSplitter', url:"${ROOT}/SentenceSplitter", desc:'OpenNLP SentenceSplitter', license:'APACHE'],
     [id:'opennlp.tokenizer', name:'OpenNLP Tokenizer', url:"${ROOT}/Tokenizer", desc:'OpenNLP Tokenizer', license:'APACHE'],
