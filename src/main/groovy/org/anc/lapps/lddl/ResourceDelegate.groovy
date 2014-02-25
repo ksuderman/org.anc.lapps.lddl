@@ -5,12 +5,28 @@ package org.anc.lapps.lddl
  */
 class ResourceDelegate extends AbstractTableDelegate{
     String valuesCache
+    Map attributes = [:]
 
-    
+    void attributes(Map map) {
+        map.each { name, value ->
+            attributes[name] = value
+        }
+    }
+
+    void attributes(Closure cl) {
+        AttributesDelegate delegate = new AttributesDelegate()
+        cl.delegate = delegate
+        cl.resolveStrategy = Closure.DELEGATE_FIRST
+        cl()
+        delegate.map.each { name,value ->
+            attributes['resource.meta.' + name] = value
+        }
+    }
+
     @Override
     Set fieldNames() {
         if (namesCache == null) {
-            namesCache = ['id','copyright','license','description','name','domain','type','attributes'] as HashSet
+            namesCache = ['id','copyright','license','description','name','domain','type'] as HashSet
         }
         return namesCache
     }
@@ -45,7 +61,7 @@ class ResourceDelegate extends AbstractTableDelegate{
         String columns = "gridid,name,resourceid,createddatetime,updateddatetime,value"
         def now = timestamp()
         StringBuilder buffer = new StringBuilder()
-        fields.attributes.each { name,value ->
+        attributes.each { name,value ->
             buffer.setLength(0)
             // http://en.wikipedia.org/wiki/IETF_language_tag
             buffer << "'${GRID_ID}'"

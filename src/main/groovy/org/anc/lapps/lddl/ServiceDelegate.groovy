@@ -17,12 +17,28 @@ class ServiceDelegate extends AbstractTableDelegate {
     static final String SERVICETYPE_SERVICEMETAATTRIBUTE_COLUMNS = "servicetype_domainid, servicetype_servicetypeid, metaattributes_attributeid, metaattributes_domainid"
     // here SERVICETYPE_SERVICEMETAATTRIBUTE (values)
 
+    Map attributes = [:]
 
+    void attributes(Map map) {
+        map.each { name,value ->
+            attributes[name] = value
+        }
+    }
+
+    void attributes(Closure cl) {
+        AttributesDelegate delegate = new AttributesDelegate()
+        cl.delegate = delegate
+        cl.resolveStrategy = Closure.DELEGATE_FIRST
+        cl()
+        delegate.map.each { name, value ->
+            attributes['service.meta.' + name] = value
+        }
+    }
 
     @Override
     Set fieldNames() {
         if (namesCache == null) {
-            namesCache = ['id','name', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type','attributes'] as HashSet
+            namesCache = ['id','name', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet
         }
         return namesCache
 //          return ['id','name', 'lang', 'url','protocol','copyright','resource','license','description','allow','control','federate','domain','type'] as HashSet

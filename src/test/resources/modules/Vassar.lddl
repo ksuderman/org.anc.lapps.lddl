@@ -13,8 +13,14 @@ else {
 
 COPYRIGHT = 'Copyright 2014 American National Corpus'
 
+// The Setup script includes the common LAPPS definitions for resource and 
+// service types and meta-attribues.
 include 'Setup'
+
+// Definitions of the MASC DataSource services
 include 'ANC'
+
+// Definitions of the processing services available at Vassar.
 include 'Services'
 
 news 'The ANC/Vassar LAPPS node has been configured via LDDL'
