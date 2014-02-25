@@ -25,8 +25,8 @@ skip:
 	
 install:
 	$(eval version := $(shell cat VERSION))
-	echo "Copying LDDL-"${version}".jar"
-	cp target/LDDL-$(version).jar ~/bin
+	echo "Copying lddl-"${version}".jar"
+	cp target/lddl-$(version).jar ~/bin
 	#cp target/LDDL-$(version).jar dist
 	echo "Generating startup script."
 	cat src/main/resources/lddl | sed -e 's|__VERSION__|'$(version)'|' > $(BIN)
