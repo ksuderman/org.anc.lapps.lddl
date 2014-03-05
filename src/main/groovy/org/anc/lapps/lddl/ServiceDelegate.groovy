@@ -103,20 +103,20 @@ class ServiceDelegate extends AbstractTableDelegate {
             }
         }
 
-        buffer = new StringBuilder()
-        buffer << "'${GRID_ID}'"
-        [fields.protocol,fields.id,fields.url,now,now,0,true,0].each {
-            buffer << ",'${it}'"
-        }
-        stmts << "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${buffer.toString()})"
+//        buffer = new StringBuilder()
+//        buffer << "'${GRID_ID}'"
+//        [fields.protocol,fields.id,fields.url,now,now,0,true,0].each {
+//            buffer << ",'${it}'"
+//        }
+        String values = [GRID_ID, fields.protocol,fields.id,fields.url,now,now,0,true,0].join(",")
+
+        stmts << "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${values})"
 
         // update serviceattribute
-        fields.attributes.each { name,value ->
-            buffer.setLength(0)
-            [fields.domain,name,fields.id,now,now,value].each {
-                buffer << ",'${it}'"
-            }
-            stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.substring(1)})"
+        attributes.each { name,value ->
+            //buffer.setLength(0)
+            values = [fields.domain,name,fields.id,now,now,value].join(",")
+            stmts << "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${values})"
         }
         return stmts as String[]
     }
@@ -189,7 +189,7 @@ class ServiceDelegate extends AbstractTableDelegate {
 //        }
 //        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
 //        sql.execute(stmt.toString())
-        fields.attributes.each { name,value ->
+        attributes.each { name,value ->
             buffer.setLength(0)
             // http://en.wikipedia.org/wiki/IETF_language_tag
             [GRID_ID,name,fields.id,now,now,value].each {
