@@ -9,7 +9,7 @@ help:
 	@echo "jar     : builds the jar file."
 	@echo "skip    : builds the jar file skipping the test phase."
 	@echo "test    : runs the unit tests."
-	@echo "zip     : creates the distribution zip file."
+	@echo "deploy  : creates the distribution zip files and uploads them to the ANC server."
 	@echo "install : copies the jar and startup script to ~/bin"
 	@echo "scripts : creates a zip archive of the script files."
 	@echo "version : generates the VERSION file."
@@ -41,7 +41,7 @@ scripts:
 version:
 	mvn anc:version
 
-zip:
+deploy:
 	$(eval version := $(shell cat VERSION))
 	$(eval zipfile := LDDL-$(version).zip)
 	$(eval jarfile := lddl-$(version).jar)
