@@ -189,7 +189,7 @@ class ServiceDelegate extends AbstractTableDelegate {
 //        }
 //        stmt = "insert into serviceattribute (${SERVICE_ATTRIBUTE_COLUMNS}) values (${buffer.toString()})"
 //        sql.execute(stmt.toString())
-        fields.attributes.each { name,value ->
+        attributes.each { name,value ->
             buffer.setLength(0)
             // http://en.wikipedia.org/wiki/IETF_language_tag
             [GRID_ID,name,fields.id,now,now,value].each {

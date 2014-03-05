@@ -23,3 +23,4 @@ data.groovy
 *.zip
 
 src/test/resources/lddl-scripts.zip
+src/main/java/org/anc/lapps/lddl/Version.java
