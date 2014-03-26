@@ -35,7 +35,7 @@ class UserDelegate extends AbstractTableDelegate {
         def password = encodePassword(fields.password)
         StringBuilder values = new StringBuilder()
         values << "'${GRID_ID}'"
-        [fields.id,now,now,true,fields.address,'CLIENT_CONTROL','NONPROFIT_USER',fields.email,'java.net.URL',fields.homepage,fields.organization,password,now,fields.name,true].each {
+        [fields.id,now,now,true,fields.address,'CLIENT_CONTROL','NONPROFIT_USE',fields.email,'java.net.URL',fields.homepage,fields.organization,password,now,fields.name,true].each {
             values << ','
             values << "'${it}'"
         }
