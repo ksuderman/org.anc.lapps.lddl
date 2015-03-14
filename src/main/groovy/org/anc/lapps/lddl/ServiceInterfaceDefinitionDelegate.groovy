@@ -63,6 +63,7 @@ class ServiceInterfaceDefinitionDelegate extends AbstractTableDelegate {
     void execute(Sql sql) {
         validateFields()
         // Get the wsdl for the service interface
+//        println "Fetching WSDL for service ${fields.name} from ${fields.url}"
         String wsdl = new URL(fields.url).text
 
         // Get the next available servicetypeid
