@@ -6,7 +6,7 @@ package org.anc.lapps.lddl;
  */
 public final class Version
 {
-	private static final String version = "1.3.3-SNAPSHOT";
+	private static final String version = "1.3.3";
 
 	public static String getVersion() { return version; }
 }
