@@ -72,6 +72,7 @@ class DatabaseDsl {
                 String name = parts[0].startsWith('-') ? parts[0][1..-1] : parts[0]
                 String value = parts.length > 1 ? parts[1] : Boolean.TRUE
                 if (name == 'verbose') {
+                    println "Enabling verbose mode."
                     verbose = true
                 }
                 else {

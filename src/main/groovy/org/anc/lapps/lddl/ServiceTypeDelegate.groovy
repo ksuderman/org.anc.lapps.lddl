@@ -56,6 +56,7 @@ class ServiceTypeDelegate extends AbstractTableDelegate {
 
             statements += "insert into servicetype_servicemetaattribute (${columns}) values (${buffer.toString()})"
         }
+//        statements.each { println it }
         return statements
     }
 }

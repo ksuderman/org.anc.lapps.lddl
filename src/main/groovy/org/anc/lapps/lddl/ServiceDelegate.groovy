@@ -20,9 +20,7 @@ class ServiceDelegate extends AbstractTableDelegate {
     Map attributes = [:]
 
     void attributes(Map map) {
-        map.each { name,value ->
-            attributes[name] = value
-        }
+        attributes.putAll(map)
     }
 
     void attributes(Closure cl) {
