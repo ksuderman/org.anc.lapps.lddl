@@ -1,1 +1,0 @@
-The accessright table needs to be updated when a new service is registered.
