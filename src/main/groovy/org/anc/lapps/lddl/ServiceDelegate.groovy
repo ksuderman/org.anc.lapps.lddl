@@ -9,7 +9,7 @@ class ServiceDelegate extends AbstractTableDelegate {
 
     static final String SERVICE_COLUMNS = 'dtype,gridid,serviceid,createddatetime,updateddatetime,active,approved,containertype,copyrightinfo,federateduseallowed,instance,instancesize,instancetype,licenseinfo,membersonly,owneruserid,resourceid,servicedescription,servicename,servicetypedomainid,servicetypeid,streaming,timeoutmillis,usealternateservice,visible,wsdl'
     static final String ENDPOINT_COLUMNS = 'gridid,protocolid,serviceid,url,createddatetime,updateddatetime,averesponsemillis,enabled,experience'
-
+    static final String ACCESSRIGHT_COLUMNS = 'servicegridid, serviceid, usergridid, userid, createddatetime, updateddatetime, permitted'
     static final String SERVICE_ATTRIBUTE_COLUMNS = "gridid, name, serviceid, createddatetime, updateddatetime, value"
     // here SERVICE_ATTRIBUTE_COLUMNS (value) is Language
 
@@ -107,9 +107,10 @@ class ServiceDelegate extends AbstractTableDelegate {
 //            buffer << ",'${it}'"
 //        }
         String values = [GRID_ID, fields.protocol,fields.id,fields.url,now,now,0,true,0].join(",")
-
         stmts << "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${values})"
 
+        values = [GRID_ID, fields.id, '*', '*', now, now, true ].collect{ "'$it'" }.join(',')
+        stmts << "insert into accessright (${ACCESSRIGHT_COLUMNS}) values (${values})"
         // update serviceattribute
         attributes.each { name,value ->
             //buffer.setLength(0)
@@ -175,6 +176,9 @@ class ServiceDelegate extends AbstractTableDelegate {
         stmt = "insert into serviceendpoint (${ENDPOINT_COLUMNS}) values (${buffer.toString()})"
         sql.execute(stmt.toString())
 
+        String values = [GRID_ID, fields.id, '*', '*', now, now, true ].collect{ "'$it'" }.join(',')
+        stmt = "insert into accessright (${ACCESSRIGHT_COLUMNS}) values (${values})"
+        sql.execute(stmt)
 
         // update serviceattribute
 //        buffer.setLength(0)
