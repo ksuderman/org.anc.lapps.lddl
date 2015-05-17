@@ -26,7 +26,15 @@ abstract class AbstractTableDelegate extends AbstractDelegate {
     static Integer nextId
 
     String timestamp() {
-        return dateFormat.format(new Date())
+        return timestamp(new Date())
+    }
+
+    String timestamp(long msec) {
+        return timestamp(new Date(msec))
+    }
+
+    String timestamp(Date date) {
+        return dateFormat.format(date)
     }
 
     String[] asSql() {
