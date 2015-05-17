@@ -1,7 +1,6 @@
 package org.anc.lapps.lddl
 
 import groovy.sql.Sql
-import java.security.MessageDigest
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 
@@ -221,6 +220,15 @@ class DatabaseDsl {
             cl.delegate = new UserDelegate()
             cl.resolveStrategy = Closure.DELEGATE_FIRST
             cl()
+            statements << cl.delegate
+        }
+
+        meta.temporaryUser = { Closure cl ->
+            cl.delegate = new TemporaryUserDelegate()
+            cl.resolveStrategy = Closure.DELEGATE_FIRST
+            use(TimeUnitCategory) {
+                cl()
+            }
             statements << cl.delegate
         }
 
