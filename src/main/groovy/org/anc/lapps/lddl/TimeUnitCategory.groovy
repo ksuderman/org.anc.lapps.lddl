@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit
 /**
  * The TimeUnitCategory is used in the TemporaryUserDelegate so the duration
  * of temporary accounts can be expressed in a human readable format.
- *
+ * <p>
  * E.g.
  * <code>
  *     duration 4.days
