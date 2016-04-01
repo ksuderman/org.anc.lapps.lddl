@@ -1,5 +1,5 @@
 :: Startup script for LDDL. Change the LDDL installation directory
-:: below if needed. This script should be in the same director as
+:: below if needed. This script should be in the same directory as
 :: the .jar file.
 
 @ECHO OFF
