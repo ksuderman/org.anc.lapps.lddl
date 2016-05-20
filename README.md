@@ -11,5 +11,5 @@ For Windows users, make sure the lddl.bat file and the lddl-x.y.z.jar file are i
 To run, open command prompt and type "lddl [arguments]".
 
 More information on LDDL can be found on the LAPPS website at 
-http://lapps.anc.org/software/lddl
+http://lappsgrid.org/software/lddl
 
