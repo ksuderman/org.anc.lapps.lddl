@@ -144,7 +144,7 @@ class DatabaseDsl {
             bindings.setVariable('NODE_ID', row.nodeid)
             bindings.setVariable('GRID_USER_ID', row.owneruserid)
         }
-
+        
         meta.postgres = { Closure cl ->
             cl.delegate = databaseInfo
             cl.resolveStrategy = Closure.DELEGATE_FIRST

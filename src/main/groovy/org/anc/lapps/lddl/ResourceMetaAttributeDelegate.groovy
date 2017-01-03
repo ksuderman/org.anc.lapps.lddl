@@ -25,7 +25,7 @@ class ResourceMetaAttributeDelegate extends AbstractTableDelegate {
 
     @Override
     String columns() {
-        "attributeid,domainid,attributename,description"
+        "attributeid,domainid,attributename,description,createddatetime,updateddatetime"
     }
 
     @Override
@@ -33,9 +33,10 @@ class ResourceMetaAttributeDelegate extends AbstractTableDelegate {
         if (valueCache != null) {
             return valueCache
         }
+        def now = timestamp()
         StringBuilder buffer = new StringBuilder()
         buffer << "'${fields.id}'"
-        [fields.domain,fields.name,fields.description].each {
+        [fields.domain,fields.name,fields.description, now, now].each {
             buffer << ",'${it}'"
         }
         valueCache = buffer.toString()
