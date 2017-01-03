@@ -6,13 +6,13 @@
 
     <groupId>org.anc.lapps</groupId>
     <artifactId>lddl</artifactId>
-    <version>1.3.4</version>
+    <version>1.4.0-SNAPSHOT</version>
     <name>LAPPS Database Definition Language</name>
     <description>A Groovy DSL for automating LAPPS database operations.</description>
     <parent>
         <groupId>org.anc.maven</groupId>
         <artifactId>groovy-parent-pom</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.3</version>
     </parent>
     <build>
         <finalName>lddl-${project.version}</finalName>
@@ -45,7 +45,7 @@
             <plugin>
                 <groupId>org.anc.maven.plugins</groupId>
                 <artifactId>anc-maven-plugin</artifactId>
-                <version>1.0.6</version>
+                <version>1.0.7</version>
                 <executions>
                     <execution>
                         <id>generate-version</id>

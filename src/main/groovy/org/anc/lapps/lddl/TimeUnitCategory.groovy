@@ -43,5 +43,4 @@ class TimeUnitCategory {
     long getSeconds() {
         return TimeUnit.SECONDS.toMillis(this)
     }
-\
 }
