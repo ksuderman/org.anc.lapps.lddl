@@ -15,6 +15,12 @@ VERSION
 dist
 .DS_Store
 
+#IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
 # Custom #
 #Makefile
 install.sh
