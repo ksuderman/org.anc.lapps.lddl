@@ -21,7 +21,14 @@ abstract class AbstractTableDelegate extends AbstractDelegate {
     abstract String values()
 
     LargeObjectManager manager
-    static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS")
+
+    // SimpleDateFormat is not thread safe, so each thread gets its own instance.
+    static final ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS")
+        }
+    }
 
     static Integer nextId
 
@@ -34,7 +41,7 @@ abstract class AbstractTableDelegate extends AbstractDelegate {
     }
 
     String timestamp(Date date) {
-        return dateFormat.format(date)
+        return dateFormat.get().format(date)
     }
 
     String[] asSql() {

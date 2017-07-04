@@ -302,7 +302,7 @@ java -jar lddl-x.y.z.jar /path/to/script [arg0, arg1, ..., argn]"
             if (args[0] == "-version") {
                 println """
 LDDL Version ${Version.version}
-Copyright 2014 American National Corpus
+Copyright 2017 American National Corpus
 """
                 return
             }
