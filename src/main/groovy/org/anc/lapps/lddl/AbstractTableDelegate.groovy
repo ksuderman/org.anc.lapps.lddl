@@ -23,7 +23,7 @@ abstract class AbstractTableDelegate extends AbstractDelegate {
     LargeObjectManager manager
 
     // SimpleDateFormat is not thread safe, so each thread gets its own instance.
-    static final ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<>() {
+    static final ThreadLocal dateFormat = new ThreadLocal() {
         @Override
         protected SimpleDateFormat initialValue() {
             return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS")
