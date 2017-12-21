@@ -22,7 +22,7 @@ import javax.net.ssl.SSLSession
 /**
  * @author Keith Suderman
  */
-class Verifier implements HostnameVerifier {
+class HostnameVerifier implements javax.net.ssl.HostnameVerifier {
     @Override
     boolean verify(String s, SSLSession sslSession) {
         return true;
